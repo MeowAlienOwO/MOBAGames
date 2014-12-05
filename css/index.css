@@ -1,0 +1,68 @@
+body {
+    font-size: 18px;
+    font-family: Calibri;
+    background-color: #EDEDEF;
+    padding-top: 30px;
+}
+#top {
+    width: 1000px;
+    height: 110px;
+    margin: auto;
+    padding-top: 30px;
+    border: 3px solid white;
+    border-radius: 10px;
+    background-color: #009999;
+}
+#top_text {
+    font-size: 60px;
+    font-family: Impact;
+    color: white;
+    padding-left: 280px;
+}
+#mainpage {
+    width: 1000px;
+    margin: auto;
+    padding-top: 20px;
+}
+.title {
+    font-size: 30px;
+    font-family: Impact;
+    padding-top: 20px;
+}
+.intro {
+    font-size: 18px;
+    padding-left: 50px;
+}
+.minutes {
+    font-size: 18px;
+    padding-left: 30px;
+}
+.minutes_table {
+    width: 120px;
+}
+.agenda {
+    font-size: 18px;
+    padding-left: 30px;
+}
+.agenda_col1 {
+    width: 200px;
+}
+.agenda_col2 {
+    width: 700px;
+}
+.col1 {
+    width: 250px;
+}
+.col2 {
+    width: 250px;
+}
+.col3 {
+    width: 255px;
+}
+.col4 {
+    width: 245px;
+}
+table {
+    font-size: 18px;
+    text-align: center;
+}
