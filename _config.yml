@@ -15,8 +15,7 @@ url:              http://meowalienowo.github.io/MOBAGames
 baseurl:          /
 
 author:
-  name:           'Mark Otto'
-  url:            https://twitter.com/mdo
+  name:           'UNNC MOBA Game project'
 
 paginate:         5
 
@@ -24,4 +23,5 @@ paginate:         5
 version:          1.0
 
 github:
-  repo:           https://meowalienowo.github.com/MOBAGames
+  repo:           https://github.com/MeowAlienOwO/MOBAGames
+
