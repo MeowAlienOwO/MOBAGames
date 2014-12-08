@@ -11,7 +11,7 @@ title:            UNNC MOBA
 tagline:          'A moba game made by UNNC students'
 description:      'Hey, we are making a moba game like DOTA or LOL,
 is that cool?'
-url:              http://meowalienowo.github.io/
+# url:              http://meowalienowo.github.io/
 baseurl:          MOBAGames/
 
 author:
