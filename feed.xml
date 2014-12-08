@@ -3,10 +3,10 @@
   <channel>
     <title>UNNC MOBA</title>
     <description>Hey, we are making a moba game like DOTA or LOL, is that cool?</description>
-    <link>MOBAGames//</link>
-    <atom:link href="MOBAGames//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 08 Dec 2014 13:28:39 +0800</pubDate>
-    <lastBuildDate>Mon, 08 Dec 2014 13:28:39 +0800</lastBuildDate>
+    <link>/MOBAGames/</link>
+    <atom:link href="/MOBAGames/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Mon, 08 Dec 2014 13:29:35 +0800</pubDate>
+    <lastBuildDate>Mon, 08 Dec 2014 13:29:35 +0800</lastBuildDate>
     <generator>Jekyll v2.5.1</generator>
     
       <item>
@@ -27,8 +27,8 @@
 
 </description>
         <pubDate>Fri, 05 Dec 2014 22:30:30 +0800</pubDate>
-        <link>MOBAGames//jekyll/update/2014/12/05/welcome-to-jekyll.html</link>
-        <guid isPermaLink="true">MOBAGames//jekyll/update/2014/12/05/welcome-to-jekyll.html</guid>
+        <link>/MOBAGames/jekyll/update/2014/12/05/welcome-to-jekyll.html</link>
+        <guid isPermaLink="true">/MOBAGames/jekyll/update/2014/12/05/welcome-to-jekyll.html</guid>
         
         
         <category>jekyll</category>
@@ -43,8 +43,8 @@
 &lt;p&gt;This is our first web page for the group project.&lt;/p&gt;
 </description>
         <pubDate>Fri, 05 Dec 2014 00:00:00 +0800</pubDate>
-        <link>MOBAGames//2014/12/05/hello-world.html</link>
-        <guid isPermaLink="true">MOBAGames//2014/12/05/hello-world.html</guid>
+        <link>/MOBAGames/2014/12/05/hello-world.html</link>
+        <guid isPermaLink="true">/MOBAGames/2014/12/05/hello-world.html</guid>
         
         
       </item>
@@ -89,8 +89,8 @@
 &lt;p&gt;Thanks!&lt;/p&gt;
 </description>
         <pubDate>Sat, 28 Dec 2013 00:00:00 +0800</pubDate>
-        <link>MOBAGames//2013/12/28/introducing-hyde.html</link>
-        <guid isPermaLink="true">MOBAGames//2013/12/28/introducing-hyde.html</guid>
+        <link>/MOBAGames/2013/12/28/introducing-hyde.html</link>
+        <guid isPermaLink="true">/MOBAGames/2013/12/28/introducing-hyde.html</guid>
         
         
       </item>
@@ -237,8 +237,8 @@
 &lt;p&gt;Want to see something else added? &lt;a href=&quot;https://github.com/poole/poole/issues/new&quot;&gt;Open an issue.&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Tue, 07 Feb 2012 00:00:00 +0800</pubDate>
-        <link>MOBAGames//2012/02/07/example-content.html</link>
-        <guid isPermaLink="true">MOBAGames//2012/02/07/example-content.html</guid>
+        <link>/MOBAGames/2012/02/07/example-content.html</link>
+        <guid isPermaLink="true">/MOBAGames/2012/02/07/example-content.html</guid>
         
         
       </item>
