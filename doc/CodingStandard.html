@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Coding Standard</title>
+<!-- 2015-01-10 六 17:41 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Zhang Huayan" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Coding Standard</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Introduction:</a>
+<ul>
+<li><a href="#sec-1-1">1.1. The reason to have coding standard</a></li>
+<li><a href="#sec-1-2">1.2. Different levels of coding standard restriction</a></li>
+<li><a href="#sec-1-3">1.3. Covered areas</a></li>
+</ul>
+</li>
+<li><a href="#sec-2">2. File and file organisation</a>
+<ul>
+<li><a href="#sec-2-1">2.1. File type</a></li>
+<li><a href="#sec-2-2">2.2. Git related rules :: <b>NECESSARY</b></a></li>
+<li><a href="#sec-2-3">2.3. File name rule :: <b>NECESSARY</b></a></li>
+<li><a href="#sec-2-4">2.4. Source code file organization</a>
+<ul>
+<li><a href="#sec-2-4-1">2.4.1. package rule :: <b>NECESSARY</b></a></li>
+<li><a href="#sec-2-4-2">2.4.2. import rule :: <b>SUGGESTED</b></a></li>
+<li><a href="#sec-2-4-3">2.4.3. class rule</a></li>
+</ul>
+</li>
+<li><a href="#sec-2-5">2.5. Example</a></li>
+</ul>
+</li>
+<li><a href="#sec-3">3. Indentation</a>
+<ul>
+<li><a href="#sec-3-1">3.1. 1 tab = 4 space :: <b>NECESSARY</b></a></li>
+<li><a href="#sec-3-2">3.2. Use space for better indentation :: <b>SUGGESTED</b></a></li>
+<li><a href="#sec-3-3">3.3. Line length :: <b>SUGGESTED</b></a></li>
+<li><a href="#sec-3-4">3.4. Wrapping lines :: <b>SUGGESTED</b></a></li>
+<li><a href="#sec-3-5">3.5. Examples</a></li>
+</ul>
+</li>
+<li><a href="#sec-4">4. Comments</a></li>
+<li><a href="#sec-5">5. Declaration</a></li>
+<li><a href="#sec-6">6. Naming Convention</a></li>
+<li><a href="#sec-7">7. Operators, statements and other related things</a></li>
+<li><a href="#sec-8">8. Reference</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Introduction:</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> The reason to have coding standard</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Having coding standard is aiming to:
+</p>
+<ul class="org-ul">
+<li>To reduce the cost of switching different type and explain
+</li>
+<li>Make the code much more readable, and help others understand the code
+</li>
+<li>For convenience of possible further maintainance  
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Different levels of coding standard restriction</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+There are three levels of standard restriction.
+</p>
+<ol class="org-ol">
+<li>NECESSARY :: Every should follow the rule, otherwise the code shouldn't
+be accepted in the program.
+</li>
+<li>SUGGESTED :: Not necessary, but it's better to follow the rule
+rather than not follow it.
+</li>
+<li>NO RESTRICTION :: There is no restriction, coders can follow their
+own style.
+</li>
+</ol>
+<p>
+In the remaining part of this document, we use those notations to
+highlight the level of standard restriction:
+</p>
+<ul class="org-ul">
+<li><b>NECESSARY</b>
+</li>
+<li><b>SUGGESTED</b>
+</li>
+<li><b>NO RESTRICTION</b>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Covered areas</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+This file will cover the restrictions on following areas:
+</p>
+<ul class="org-ul">
+<li>File and file organisation
+</li>
+<li>Indentation
+</li>
+<li>Comments
+</li>
+<li>Declaration
+</li>
+<li>Naming Convention
+</li>
+<li>Operators, statements and other related things.
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> File and file organisation</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> File type</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+The file in this project includes:
+</p>
+<dl class="org-dl">
+<dt> *.java file </dt><dd>java source file.
+</dd>
+<dt> *.class file </dt><dd>java binary file (shouldn't be tracked by github)
+</dd>
+<dt> *.org file </dt><dd>(not nessary) emacs org file, for documenting.
+</dd>
+<dt> *.pdf file </dt><dd>pdf file, for documenting.
+</dd>
+<dt> Makefile </dt><dd>(not necessary) used to build the whole program and test
+</dd>
+<dt> README </dt><dd>Introduction file, using markdown notations.
+</dd>
+<dt> LICENCE </dt><dd>licence for the project.
+</dd>
+<dt> .gitignore </dt><dd>git ignore file is used to store the rules of untrack
+files for github.
+</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Git related rules :: <b>NECESSARY</b></h3>
+<div class="outline-text-3" id="text-2-2">
+<ul class="org-ul">
+<li>All temp file shouldn't be tracked by github.
+</li>
+<li>The gh-source and gh-page branch is used to maintain the project web page.
+</li>
+<li>The master branch should be the stable version of codes
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> File name rule :: <b>NECESSARY</b></h3>
+<div class="outline-text-3" id="text-2-3">
+<dl class="org-dl">
+<dt> *.java </dt><dd>should be named by the name of the most important class
+name in this file
+</dd>
+<dt> <b>.pdf/</b>.org </dt><dd>these file name should be clear enough to show the main
+usage of that document
+</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4"><span class="section-number-3">2.4</span> Source code file organization</h3>
+<div class="outline-text-3" id="text-2-4">
+</div><div id="outline-container-sec-2-4-1" class="outline-4">
+<h4 id="sec-2-4-1"><span class="section-number-4">2.4.1</span> package rule :: <b>NECESSARY</b></h4>
+<div class="outline-text-4" id="text-2-4-1">
+<ul class="org-ul">
+<li>The first uncommented line should be package information.
+</li>
+<li>package name should be all lower-case characters
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2-4-2" class="outline-4">
+<h4 id="sec-2-4-2"><span class="section-number-4">2.4.2</span> import rule :: <b>SUGGESTED</b></h4>
+<div class="outline-text-4" id="text-2-4-2">
+<ul class="org-ul">
+<li>The import package should put all java package first, then the
+third-party package
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2-4-3" class="outline-4">
+<h4 id="sec-2-4-3"><span class="section-number-4">2.4.3</span> class rule</h4>
+<div class="outline-text-4" id="text-2-4-3">
+</div><ol class="org-ol"><li>Order :: <b>NECESSARY</b><br  /><div class="outline-text-5" id="text-2-4-3-1">
+<p>
+One certan class should organize its contents according to following
+order:
+</p>
+<ol class="org-ol">
+<li>static &gt; non-static
+</li>
+<li>variable &gt; constructor &gt; methods
+</li>
+<li>public &gt; protected &gt; default &gt; private
+</li>
+<li>nest class should be put at the end of all methods, if has any.
+</li>
+<li>main method should always be first place
+</li>
+</ol>
+</div>
+</li>
+<li>Blank line :: <b>NO RESTRICTION</b><br  /><div class="outline-text-5" id="text-2-4-3-2">
+<p>
+Using blank lines to show the seperation.
+</p>
+</div>
+</li></ol>
+</div>
+</div>
+
+<div id="outline-container-sec-2-5" class="outline-3">
+<h3 id="sec-2-5"><span class="section-number-3">2.5</span> Example</h3>
+<div class="outline-text-3" id="text-2-5">
+<div class="org-src-container">
+
+<pre class="src src-java">/**
+ * comment
+ */
+package come.name.of.pkg;
+
+import java.util.*;
+import com.party.third.*;
+
+public class ClassName{
+    public static void main(String[] args){
+	// main
+    }
+    // static variable
+    public static String varStatic;
+    public static String CONSTANT;
+
+    // static method
+    public static void mthdStatic(){
+
+    }
+
+    // variable
+    public    String var1;
+    protected String var2;
+	      String var3;
+    private   String var4;
+
+    // constructor
+    ClassName(){
+
+    }
+
+    // methods
+    public void mthd1(){
+
+    }
+
+    protected void mthd2(){
+
+    }
+
+    void mthd3(){
+
+    }
+
+    private mthd4(){
+
+    }
+
+    Class NestClass(){
+	// contents of nest class
+    }
+
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Indentation</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> 1 tab = 4 space :: <b>NECESSARY</b></h3>
+</div>
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> Use space for better indentation :: <b>SUGGESTED</b></h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+Space can helping indenting like:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-java">public    int i = 0;
+protected int j = 0;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3"><span class="section-number-3">3.3</span> Line length :: <b>SUGGESTED</b></h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+A single line shouldn't be more than 80 characters.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-3-4" class="outline-3">
+<h3 id="sec-3-4"><span class="section-number-3">3.4</span> Wrapping lines :: <b>SUGGESTED</b></h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+When the expression is longer than a single line, it should be
+well-breaked.
+Following breaking is suggested:
+</p>
+<ul class="org-ul">
+<li>Breaking after a comma
+</li>
+<li>Breaking before a operater
+</li>
+</ul>
+<p>
+the new line should be well-indented to make the code clean.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-3-5" class="outline-3">
+<h3 id="sec-3-5"><span class="section-number-3">3.5</span> Examples</h3>
+<div class="outline-text-3" id="text-3-5">
+<div class="org-src-container">
+
+<pre class="src src-java"></pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Comments</h2>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Declaration</h2>
+</div>
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> Naming Convention</h2>
+</div>
+
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> Operators, statements and other related things</h2>
+</div>
+
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8"><span class="section-number-2">8</span> Reference</h2>
+<div class="outline-text-2" id="text-8">
+<ul class="org-ul">
+<li>Code Conventions(1997), Oracle co.Ltd. available
+at:<a href="http://www.oracle.com/technetwork/java/codeconventions-150003.pdf">http://www.oracle.com/technetwork/java/codeconventions-150003.pdf</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Zhang Huayan</p>
+<p class="date">Created: 2015-01-10 六 17:41</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.3.1 (<a href="http://orgmode.org">Org</a> mode 8.2.5h)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

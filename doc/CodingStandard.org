@@ -1,0 +1,504 @@
+#+title:Coding Standard
+#+author:Zhang Huayan
+#+version:1.0
+
+* Introduction:
+** The reason to have coding standard
+Having coding standard is aiming to:
+- To reduce the cost of switching different type and explain
+- Make the code much more readable, and help others understand the code
+- For convenience of possible further maintainance  
+
+
+** Different levels of coding standard restriction
+There are three levels of standard restriction.
+1. NECESSARY  Every should follow the rule, otherwise the code shouldn't
+           be accepted in the program.
+2. SUGGESTED  Not necessary, but it's better to follow the rule
+                rather than not follow it.
+3. NO RESTRICTION  There is no restriction, coders can follow their
+     own style.
+In the remaining part of this document, we use those notations to
+highlight the level of standard restriction:
+- :NECESSARY:
+- :SUGGESTED:
+- :NO RESTRICTION:
+** Covered areas
+This file will cover the restrictions on following areas:
+- File file organisation and git
+- Indentation
+- Comments
+- Declaration
+- Naming Convention
+- Operators, statements and other related things.
+
+* File, file organisation and git
+** File type 
+The file in this project includes:
+- *.java file  java source file.
+- *.class file  java binary file (shouldn't be tracked by github)
+- *.org file  (not nessary) emacs org file, for documenting.
+- *.pdf file  pdf file, for documenting.
+- Makefile  (not necessary) used to build the whole program and test
+- README  Introduction file, using markdown notations.
+- LICENCE  licence for the project.
+- .gitignore  git ignore file is used to store the rules of untrack
+                files for github.
+** Git related rules  :NECESSARY:
+- All temp file shouldn't be tracked by github.
+- The gh-source and gh-page branch is used to maintain the project web page.
+- The master branch should be the stable version of codes
+
+** File name rule  :NECESSARY:
+
+- *.java  should be named by the name of the most important class
+            name in this file
+- *.pdf/*.org  these file name should be clear enough to show the main
+           usage of that document
+** Source code file organization
+*** package rule  :NECESSARY:
+- The first uncommented line should be package information.
+- package name should be all lower-case characters
+*** import rule  :SUGGESTED:
+- The import package should put all java package first, then the
+  third-party package
+*** class rule 
+**** Order  :NECESSARY:
+One certan class should organize its contents according to following
+order:
+1. static > non-static
+2. variable > constructor > methods
+3. public > protected > default > private
+4. nest class should be put at the end of all methods, if has any.
+5. main method should always be first place
+
+**** Blank line  :NO RESTRICTION:
+Using blank lines to show the seperation.
+** Example
+
+#+BEGIN_SRC java
+/**
+ * comment
+ */
+package come.name.of.pkg;
+
+import java.util.*;
+import com.party.third.*;
+
+public class ClassName{
+    public static void main(String[] args){
+        // main
+    }
+    // static variable
+    public static String varStatic;
+    public static String CONSTANT;
+
+    // static method
+    public static void mthdStatic(){
+    
+    }
+
+    // variable
+    public    String var1;
+    protected String var2;
+              String var3;
+    private   String var4;
+    
+    // constructor
+    ClassName(){
+
+    }
+
+    // methods
+    public void mthd1(){
+
+    }
+
+    protected void mthd2(){
+
+    }
+
+    void mthd3(){
+
+    }
+    
+    private mthd4(){
+
+    }
+
+    Class NestClass(){
+        // contents of nest class
+    }
+    
+}
+#+END_SRC
+* Indentation
+** 1 tab = 4 space  :NECESSARY:
+** Use space for better indentation  :SUGGESTED:
+Space can helping indenting like:
+#+BEGIN_SRC java
+public    int i = 0;
+protected int j = 0;
+#+END_SRC
+** Line length  :SUGGESTED:
+A single line shouldn't be more than 80 characters.
+
+** Wrapping lines  :SUGGESTED:
+When the expression is longer than a single line, it should be
+well-breaked.
+Following breaking is suggested:
+- Breaking after a comma
+- Breaking before a operater
+the new line should be well-indented to make the code clean.
+
+** Examples
+#+BEGIN_SRC java
+public static void aLongMethodName(String string, int integer,
+                                   char character, boolean bool){
+    boolean newBool = (bool1 && bool) 
+                   || (bool2 && bool3);
+
+    int newInteger = (integer1 + integer2) * integer
+                   + (integer3 / integer4);
+
+    boolean res = integer == 1 ? true
+                               : false;
+}
+#+END_SRC
+* Comments
+** Comment in JAVA
+There are two types of comments in java. Implement comments includes
+`/*...*/' and `//...', document comment is `/**...*/'.
+There are several spetial notations can be used in document comment,
+and it can automatically generate documentation by using javadoc.
+
+Implementation comments are mean for commenting out code or for
+comments about the particular implementation. Doc comments are meant
+to describe the specification of the code, from an implementation-free
+perspective. to be read by developers who might not necessarily have
+the source code at hand. 
+
+Comments should be used to give overviews of code and provide
+additional information that is not readily available in the code
+itself. Comments should contain only information that is relevant to
+reading and understanding the program. For example, information about
+how the corresponding package is built or in what directory it resides
+should not be included as a comment.
+
+Discussion of nontrivial or nonobvious design decisions is
+appropriate, but avoid duplicating information that is present in (and
+clear from) the code. It is too easy for redundant comments to get out
+of date. In general, avoid any comments that are likely to get out of
+date as the code evolves.
+
+** Comments for file  :NECESSARY:
+There should be comments before coding to give an overview on the main
+purpose, the organization or some implement detail of the current
+purpose. 
+The document comment should be used. It also should include the
+author/maintainer, description, version and change log.
+Using the specified notations is strongly recommended.
+
+** Document comments  :SUGGESTED:
+It is strongly recommended to use document comments to discribe the
+purpose and the usage of not private fields. Such comments should
+be placed before the concrete code.
+
+** Implement comments  :SUGGESTED:
+Implement comments are used to describe the detail of
+implementation. For single line comment, use `//', for multi-line
+comments, use `/*...*/'. For debugging or keep certain function, use
+`//' to comment codes.
+The implement codes should be meaningful. Those kind of codes
+shouldn't appear:
+
+#+BEGIN_SRC java
+int i = a + b; // i equals a + b
+#+END_SRC
+
+
+** Example
+
+#+BEGIN_SRC java
+/**
+ * Demonstration class
+ * @author Zhang Huayan
+ * @version 1.0
+ * The usage of the class, and the implementation idea.
+ * <pre>
+ * <h2> Change Log </h2>
+ * Change details
+ * </pre>
+ */
+class Demo{
+    /**
+     * Add two integer.
+     * @param i
+     * @param j
+     * Integer
+     * @return sum of two int
+     */
+    public void addDemo(int i, int j){
+        // add two int for demonstrate
+        // int sum = i + j;
+        return i + j;
+    }
+
+
+}
+#+END_SRC
+
+* Declaration
+** Don't put different kind of variables in one line  :NECESSARY:
+One single line should contain only one kind of variables/methods.
+bad example:
+#+BEGIN_SRC java
+int i, arr[]; // wrong!
+int i, getI(); // wrong!
+int i; boolean changed; // wrong!
+#+END_SRC
+** Seperate variables  :NO RESTRICTION:
+In simple case, these declaration is enough:
+#+BEGIN_SRC java
+int i, j; // temp vars
+#+END_SRC
+but in case that the variable need to be explained, these are better:
+#+BEGIN_SRC java
+int demo;        // one demonstration
+int anotherDemo; //another demonstration
+#+END_SRC
+** Variables should only at the beginning of the block  :SUGGESTED:
+To reduce the confuse, all variables should be placed before only at
+the beginning of each block.
+Bad example:
+#+BEGIN_SRC java
+void myMthd(){
+    if(isChanged()){
+
+    }
+int i; // should before the if block
+}
+#+END_SRC
+Only one exception:
+#+BEGIN_SRC java
+for(int i = 0; i < a.length; i++){
+
+}
+#+END_SRC
+
+** Methods with only one statement :NECESSARY:
+The one-line method shouldn't appear in the code for not making
+confuse.
+
+example
+#+BEGIN_SRC java
+int myMthd(){ return 0; } // wrong!
+int myMthd(){
+    return 0; // ok
+}
+
+int myMthd(){ int a = 1 + 1; return a; } // wrong!
+int myMthd(){
+    int a = 1 + 1;
+    return a; // correct
+}
+
+#+END_SRC
+* Naming Convention
+** Naming style  :NECESSARY:
+*** Variable name should use the Camel-Case. 
+example:
+#+BEGIN_SRC java
+int sizeOfArray;
+#+END_SRC
+*** Class and interface name should use the Pascal-Case. 
+example:
+#+BEGIN_SRC java
+class MyDemoClass{}
+interface MyDemoInterface{}
+#+END_SRC
+*** Method name should use the Camel-Case with verb starting. 
+example:
+#+BEGIN_SRC java
+boolean isInteger(){}
+static void cookNoodles(){}
+#+END_SRC
+*** Package name should use all lower case. 
+example:
+#+BEGIN_SRC java
+package java.util;
+#+END_SRC
+*** Constant should use all lower case, and use underline to
+     separate. 
+example:
+#+BEGIN_SRC java
+public static final int THE_ANSWER_OF_UNIVERSE_AND_LIFE = 42;
+#+END_SRC
+** Simple variables table  :SUGGESTED:
+These simple variable is used for temporary variables, or in some case
+the variable is highly abstracted.
+- b = byte
+- c = character
+- d = double
+- f = float
+- i, j, k = integer
+- l = long
+- o = object
+- s = string
+- e = exception
+
+** Abbreviation  :SUGGESTED:
+Using abbreviation is suggested, *ONLY* under the condition that the
+abbreviation won't make any misunderstanding.
+Otherwise, Abbreviation is not suggested.
+example:
+#+BEGIN_SRC java
+String msg; // ok, msg is easily recognized as `message'
+String st;  // not clear
+#+END_SRC
+* Operators, statements and other related things
+** Spacing operators  :NECESSARY:
+*** Space or new lines should be used to separate operators. 
+example:
+#+BEGIN_SRC java
+int a=b+c;     // wrong!
+int a = b + c; // correct!
+#+END_SRC
+
+*** Parameters should be separated by space after the commas.
+example:
+#+BEGIN_SRC java
+myMthd(param1,param2,param3);   // wrong!
+myMthd(param1, param2, param3); //correct!
+#+END_SRC
+
+** Brace, brackets and square brackets :NECESSARY:
+*** Brace 
+Brace should be placed after the class/method declaration without new
+line.
+
+example:
+#+BEGIN_SRC java
+class MyDemo  // wrong
+{
+
+}
+
+class MyDemo{ // ok
+
+}
+
+void myMthd  // wrong
+{
+
+}
+
+void myMthd{ // ok
+
+}
+
+#+END_SRC
+
+*** Brackets and square brackets
+They should be ether empty or directly followed by
+expressions/parameters without space. The end of brackets/square
+brackets should also be directed followed by character, not space.
+#+BEGIN_SRC java
+if( condition) // wrong
+if(condition ) // wrong
+if(condition)  // ok
+
+myMthd()       // ok
+
+arr[ 0]        // wrong
+arr[0 ]        // wrong
+arr[0]         // ok
+#+END_SRC
+** if statement :NECESSARY:
+Only the if statements with brace, and the statements starts at new
+line can be accepted.
+example:
+#+BEGIN_SRC java
+if(condition){
+    return true; // ok
+}
+
+if(condition) return true; // wrong!
+
+if(condition)
+    return true; // wrong!
+#+END_SRC
+
+** for statement :NECESSARY:
+Only the following for statements can be accepted.
+example:
+
+#+BEGIN_SRC java
+for(int i = 0; i < a.length; i++){ // ok
+
+}
+
+int i;
+for(i = 0; i < a.length; i++){ // ok
+
+}
+
+
+int i = 0;
+for(; i < a.length; i++){ // wrong!
+    /* this kind of for loop is better be changed
+     * to while loop
+     */
+}
+#+END_SRC
+
+** while/do while statement :NECESSARY:
+If there has any variables to control the end of the loop, it should
+be clear. It can be put in the first or last line of the code block,
+or in the condition bracket. In other case, it must be commented to
+show how the loop control variant works.
+example:
+#+BEGIN_SRC java
+while((line = br.readLine()) != null){ // ok
+    
+}
+
+while(i < a.length){ // ok
+    i++;
+
+    // some codes
+}
+
+while(i < a.length){ // ok
+    // some codes
+
+    i++;
+}
+
+while(i < a.length){ // ok
+
+    // some codes
+
+    if(condition){
+        i++; // how loop variant works
+    }
+
+    // some codes
+}
+
+while(i < a.length){ // wrong!
+    // some codes
+    i++;
+    // some codes
+}
+#+END_SRC
+* Reference
+- Code Conventions(1997), Oracle co.Ltd. available
+  at: http://www.oracle.com/technetwork/java/codeconventions-150003.pdf
+
+- JAVA High Quality Coding Standard(Chinese)(2010), MingDa SiMa,
+  available at: http://www.douban.com/note/82618786/
+
+- JAVA Code Convention(Chinese)(2011), daiyy0921, available
+  at: http://blog.csdn.net/daiyy0921/article/details/6793076 
+
