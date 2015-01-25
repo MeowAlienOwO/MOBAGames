@@ -70,7 +70,7 @@ order:
 2. variable > constructor > methods
 3. public > protected > default > private
 4. nest class should be put at the end of all methods, if has any.
-5. main method should always be first place
+5. main method should always at the first position
 
 **** Blank line  :NO RESTRICTION:
 Using blank lines to show the seperation.
@@ -233,9 +233,9 @@ int i = a + b; // i equals a + b
 class Demo{
     /**
      * Add two integer.
-     * @param i
-     * @param j
-     * Integer
+     * @param int i 
+     * @param int j
+     * 
      * @return sum of two int
      */
     public void addDemo(int i, int j){
@@ -388,12 +388,12 @@ class MyDemo{ // ok
 
 }
 
-void myMthd  // wrong
+void myMthd()  // wrong
 {
 
 }
 
-void myMthd{ // ok
+void myMthd(){ // ok
 
 }
 
