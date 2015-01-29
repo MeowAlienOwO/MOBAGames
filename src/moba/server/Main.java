@@ -3,6 +3,8 @@
 // Filename: Main.java
 // Code:
 
+package moba.server;
+
 /**
  * Main class 
  * @author Zhang Huayan
@@ -13,14 +15,14 @@
  * 
  * </pre>
  */
-package moba.server;
-
 
 
 public class Main{
     
     public static void main(String[] args) {
 	
+	Communicator communicator = Communicator.get();
+	communicator.setup();
     }
 
 

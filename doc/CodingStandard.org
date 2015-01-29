@@ -328,8 +328,7 @@ example:
 #+BEGIN_SRC java
 package java.util;
 #+END_SRC
-*** Constant should use all lower case, and use underline to
-     separate. 
+*** Constant should use all lower case, and use underline to separate. 
 example:
 #+BEGIN_SRC java
 public static final int THE_ANSWER_OF_UNIVERSE_AND_LIFE = 42;

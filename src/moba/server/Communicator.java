@@ -6,6 +6,7 @@
 
 package moba.server;
 
+import java.util.*;
 /**
  * Communicator
  * @author Zhang Huayan
@@ -19,15 +20,11 @@ package moba.server;
  */
 
 class Communicator{
-    /**
-     * Add two integer.
-     * @param i
-     * @param j
-     * Integer
-     * @return sum of two int
-     */
+
     // static variables
     private static Communicator communicator;
+
+    
     // static methods
     static Communicator get(){
 	if(Communicator.communicator == null){
@@ -35,26 +32,20 @@ class Communicator{
 	}
 	return Communicator.communicator;
     }
-
-    
+        
     // variables
     private int port = 1234;	// default port num
-    private CommunicateListener listener;
+    private SocketListener listener;
+    private List<Client> clientLst;
+    
     // constructors
     private Communicator(){
-	this.listener = CommunicateListener.get();
-    }
-    
-    private Communicator(String port){
-	
-	setPort(Integer.parseInt(port));
-	Communicator();
+	clientLst = new LinkedList<Client>();
 
+	this.listener = SocketListener.get();
     }
 
     // methods
-
-
     /**
      * set port number.
      * @param int port
@@ -66,17 +57,54 @@ class Communicator{
 	}
     }
     /**
-     * get port number
+     * @return int port: the port number
      */
     int getPort(){
 	return this.port;
     }
+    
+    
+
+    /**
+     * register the client into the client list.
+     * @param Client client: the client to be registed
+     * @return true if register successfully, 
+     *         false otherwise.
+     */
+    boolean register(Client client){
+	if(clientLst.size() > 10){
+	    return false;
+	} 
+	return this.clientLst.add(client);
+    }
+
+    /**
+     * unregister the client form the client list.
+     * @param Client client: the client to be moved
+     * @return true if unregister successfully,
+     *         false otherwise.
+     */
+    boolean unregister(Client client){
+	return clientLst.remove(client);
+    }
+
+    /**
+     * unregister the client of certain id
+     * @param int id: the id of the client to be moved
+     * @return true if unregister successfully,
+     *         false otherwise.
+     */
+    boolean unregister(int id){
+	for(int i = 0; i < clientLst.size(); i++){
+	    if(clientLst.get(i).getID() == id){
+		return clientLst.remove(clientLst.get(i));
+	    }
+	}
+	return false;
+    }
 
     void setup(){
-	listener.setPort(port);
-	Thread listenerThread = new Thread(listener);
-
-	listenerThread.start();
+	listener.start();
     }
 }
 

@@ -1,6 +1,6 @@
 //                              -*- Mode: Java -*- 
-// CommunicateListener.java --- 
-// Filename: CommunicateListener.java
+// SocketListener.java --- 
+// Filename: SocketListener.java
 
 // Code:
 package moba.server;
@@ -8,7 +8,7 @@ package moba.server;
 import java.net.*;
 import java.io.*;
 /**
- * CommunicateListener
+ * SocketListener
  * @author Zhang Huayan
  * @version 1.0
  * This class listens to the port, if there is any server connected, establish 
@@ -19,15 +19,26 @@ import java.io.*;
  * </pre>
  */
 
-class CommunicateListener implements Runnable{
+class SocketListener extends Thread{
+    
+    // static variable
+    private static SocketListener listener;
+
+    // static method
+    static SocketListener get(){
+	if(SocketListener.listener == null){
+	    SocketListener.listener = new SocketListener();
+	}
+	return SocketListener.listener;
+    }
     
     // variable
     private int port;
     private ServerSocket ss;
-        
+    
     // constructor
-    CommunicateListener(int port){
-	setPort(port);
+    private SocketListener(){
+	port = Communicator.get().getPort();
 	try {
 	    ss = new ServerSocket(port);    
 	}catch(IOException ioe){
@@ -41,38 +52,32 @@ class CommunicateListener implements Runnable{
     public void run(){
 	System.out.println("Listener start");
 	try {
-
 	    while(true){
-		Socket s = ss.accept();
-		// Client client = new Client(s);
-		// TODO: deal with new socket.
+		Client client = new Client(ss.accept());
+		Communicator.get().register(client);
 	    }
-
 	}catch(SocketException se){
 	    System.out.println("Listener end");
 	}catch(IOException ioe){
 	    System.out.println("Error" + ioe.getMessage());
 	    ioe.printStackTrace();
 	}
-	System.out.println("Listener end");
+
     }
 
-    public void stop(){
+    public void close(){
 	System.out.println("Stoping the Listener...");
-	ss.close();
-	
-    }
-    /**
-     * set port number.
-     * @param int port
-     */
-    private void setPort(int port){
-	if(port > 1023 && port < 65536){
-	    this.port = port;
+	try {
+	    ss.close();	    
 	}
-    }
+	catch (IOException ioe) {
+	    System.out.println("Error " + ioe.getMessage());
+	    ioe.printStackTrace();
+	}
 
+
+    }
 }
 
 // 
-// CommunicateListener.java ends here
+// SocketListener.java ends here

@@ -1,0 +1,101 @@
+//                              -*- Mode: Java -*- 
+// Client.java --- 
+// Filename: Client.java
+// Code:
+
+package moba.server;
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+/**
+ * Client
+ * @author Zhang Huayan
+ * @version 1.0
+ * This class is used to communicate with the client and get message.
+ * It runs a reader thread and a writer thread to talk with the client.
+ * All valid information, according to the protocal, will be kept here 
+ * separately.
+ * The register method is used to register the client to the client list.
+ * <pre>
+ * <h2> Change Log </h2>
+ * 
+ * </pre>
+ */
+
+class Client{
+    // static variables
+    private static int ID = 0;	// id is the key to identify a certain client
+    
+    // variables
+    private int id;
+    private ClientReader reader;
+    private ClientWriter writer;
+    private Queue<String> inputQueue;	// to store the information from client
+    private Queue<String> outputQueue;	// to store the information to be sent
+
+    // constructor
+    Client(Socket s){
+	try {
+	    this.id = Client.ID;
+	    inputQueue  = new LinkedList<String>();
+	    outputQueue = new LinkedList<String>();
+	    reader  = new ClientReader(s.getInputStream(), this);
+	    writer  = new ClientWriter(s.getOutputStream(), this);
+	
+	    Thread readerThrd = new Thread(reader);
+	    Thread writerThrd = new Thread(writer);
+
+	    readerThrd.start();
+	    writerThrd.start();
+	    Client.ID++;
+    
+	}
+	catch (IOException ioe) {
+	    System.out.println("Error " + ioe.getMessage());
+	    ioe.printStackTrace();
+	}
+
+    }
+
+    // methods
+
+    int getID(){
+	return id;
+    }
+
+    boolean isInputEmpty(){
+	return inputQueue.isEmpty();
+    }
+
+    boolean isOutputEmpty(){
+	return outputQueue.isEmpty();
+    }
+
+    String inputDequeue(){
+	return inputQueue.poll();
+    }
+
+    String inputExamine(){
+	return inputQueue.peek();
+    }
+
+    boolean inputEnqueue(String s){
+	return inputQueue.offer(s);
+    }
+
+    String outputDequeue(){
+	return outputQueue.poll();
+    }
+
+    String outputExamine(){
+	return outputQueue.peek();
+    }
+
+    boolean outputEnqueue(String s){
+	return outputQueue.offer(s);
+    }
+
+}
+// 
+// Client.java ends here
