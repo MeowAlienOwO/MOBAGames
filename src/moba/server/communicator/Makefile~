@@ -1,0 +1,31 @@
+LIB = ../../../../lib
+BIN = ../../../../bin
+SRC = ../../../../src
+PATH = moba/server/communicator
+vpath %.java $(SRC)
+vpath %.class  $(BIN)
+
+
+.PHONY: all clean check
+
+check:
+	@echo "test"
+	@echo javac -version
+%.class: %.java
+	javac -d $(BIN) *.java
+
+Communicator.class : Communicator.java SocketListener.class Client.class
+	javac -d $(BIN) Communicator.java
+
+SocketListener.class : SocketListener.java Client.class 
+	javac -d $(BIN) SocketListener.java
+Client.class : Client.java ClientReader.class ClientWriter.class
+	javac -d $(BIN) Client.java
+ClientReader.class : ClientReader.java
+	javac -d $(BIN) ClientReader.java
+ClientWriter.class : ClientWriter.java
+	javac -d $(BIN) ClientWriter.java
+
+
+clean:
+	rm -r $(BIN)/$(PATH)/ 
