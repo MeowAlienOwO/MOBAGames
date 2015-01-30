@@ -8,8 +8,7 @@ all:
 	@for subdir in SRC; do\
 		javac -cp $(CLASSPATH) -d bin/ $(subdir)/*.java \ 
 	done;
-	
-	
+
 test:
 
 run:

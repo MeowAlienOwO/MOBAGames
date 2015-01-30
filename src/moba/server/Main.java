@@ -5,15 +5,13 @@
 
 package moba.server;
 
+
+import communicator.*;
 /**
- * Main class 
+ * Main 
  * @author Zhang Huayan
  * @version 1.0
  * This is the main entry of the whole program.
- * <pre>
- * <h2> Change Log </h2>
- * 
- * </pre>
  */
 
 

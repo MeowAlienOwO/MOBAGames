@@ -10,11 +10,7 @@
  * @version 1.0
  * This Class provides a simple implementation of the logic.
  * Including the protocal, and related operations.
- * <br>Should be reworked later.</br>
- * <pre>
- * <h2> Change Log </h2>
- * 
- * </pre>
+ * Should be reworked later.
  */
 
 class SimpleLogic implements Runnable{
@@ -38,7 +34,7 @@ class SimpleLogic implements Runnable{
 
     // logic
     @Override
-    public void run{
+    public void run(){
 	
 	
     }
