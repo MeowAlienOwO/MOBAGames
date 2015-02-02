@@ -4,6 +4,10 @@
 // Description: 
 // Code:
 
+
+package moba.server;
+import moba.server.communicator.*;
+import java.util.*;
 /**
  * SimpleLogic
  * @author Zhang Huayan
@@ -13,7 +17,7 @@
  * Should be reworked later.
  */
 
-class SimpleLogic implements Runnable{
+public class SimpleLogic implements Runnable{
     // static method
 
     // protocal checking
@@ -32,11 +36,29 @@ class SimpleLogic implements Runnable{
 	}
     }
 
+    // variable
+    private volatile boolean exit = false;
+
+    // method
     // logic
     @Override
     public void run(){
+	List<Client> clientLst = Communicator.getClients();
+	while(!exit){
+	    for(int i = 0; i < clientLst.size(); i++){
+		Client client = clientLst.get(i);
+		while(!client.isInputEmpty()){
+		    System.out.println(client.getID() + " " + client.inputDequeue());
+		    client.outputEnqueue("OK");
+		    
+		}
+	    }
+	}
 	
-	
+    }
+
+    public void exit(){
+	this.exit = true;
     }
 
 }

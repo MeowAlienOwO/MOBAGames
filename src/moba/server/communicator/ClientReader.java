@@ -3,10 +3,11 @@
 // Filename: ClientReader.java
 // Code:
 
-package moba.server;
+package moba.server.communicator;
 
 import java.io.*;
 import java.net.SocketException;
+
 /**
  * ClientReader
  * @author Zhang Huayan
@@ -15,15 +16,14 @@ import java.net.SocketException;
  * them is valid. Those valid information should be put into the client's 
  * message queue, and those not valid should be ignored.
  */
-class ClientReader implements Runnable{
+public class ClientReader implements Runnable{
     // variable
     private BufferedReader br;
-    // private Queue<String> inputQueue;
     private Client client;
     // constructor
-    // ClientReader(InputStream is, Queue<String> inputQueue){
     ClientReader(InputStream is, Client client){
 	this.client = client;
+
 	this.br = new BufferedReader(new InputStreamReader(is));
     }
 
@@ -35,7 +35,7 @@ class ClientReader implements Runnable{
 
 	    while((line = br.readLine()) != null){
 		if(isValid(line)){
-		    client.inputEnqueue(line);
+		    client.inputEnqueue(addTimeStamp(line));
 		}
 	    }	    
 
@@ -43,13 +43,17 @@ class ClientReader implements Runnable{
 	    // normal end
 	}catch(IOException ioe){
 	    System.out.println("Error " + ioe.getMessage());
-
 	    ioe.printStackTrace();
 	}
     }
 
     private boolean isValid(String line){
-	return SimpleLogic.checkProtocal(line);
+	// return SimpleLogic.checkProtocal(line);
+	return true;
+    }
+
+    private String addTimeStamp(String line){
+	return line;
     }
 }
 

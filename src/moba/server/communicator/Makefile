@@ -6,24 +6,29 @@ vpath %.java $(MOBASRC)
 vpath %.class  $(MOBABIN)
 
 
-.PHONY: all clean check
+.PHONY : rm all
 
-%.class: %.java
-	javac -d $(MOBABIN) *.java 
-Communicator.class : Communicator.java SocketListener.class Client.class
-	javac -d $(MOBABIN) Communicator.java
+all : $(MOBABIN)/$(PACKAGE)/*.class
+	@pwd
+$(MOBABIN)/$(PACKAGE)/*.class : $(MOBASRC)/$(PACKAGE)/*.java
+	javac -d $(MOBABIN) $(MOBASRC)/$(PACKAGE)/*.java
 
-SocketListener.class : SocketListener.java Client.class 
-	javac -d $(MOBABIN) SocketListener.java
+rm : 
+	-rm -r $(MOBABIN)/$(PACKAGE)/
+
+# %.class: %.java
+# 	javac -d $(MOBABIN) *.java 
+# Communicator.class : Communicator.java SocketListener.class Client.class
+# 	javac -d $(MOBABIN) Communicator.java
+
+# SocketListener.class : SocketListener.java Client.class 
+# 	javac -d $(MOBABIN) SocketListener.java
 # Client.class : Client.java ClientReader.class ClientWriter.class
 # 	javac -d $(MOBABIN) Client.java
 # ClientReader.class : ClientReader.java
 # 	javac -d $(MOBABIN) ClientReader.java
 # ClientWriter.class : ClientWriter.java
 # 	javac -d $(MOBABIN) ClientWriter.java
-Client.class ClientReader.class ClientWriter.class : Client.java \
-        ClientReader.java \
-        ClientWriter.java
-	javac -d $(MOBABIN) ClientReader.java ClientWriter.java Client.java
-clean:
-	rm -r $(MOBABIN)/$(PACKAGE)/ 
+
+# clean:
+# 	-rm -r $(MOBABIN)/$(PACKAGE)/ 

@@ -17,32 +17,30 @@ import java.util.*;
  * All valid information, according to the protocal, will be kept here 
  * separately.
  * The register method is used to register the client to the client list.
- * <pre>
- * <h2> Change Log </h2>
- * 
- * </pre>
  */
 
-class Client{
+public class Client{
     // static variables
     private static int ID = 0;	// id is the key to identify a certain client
     
     // variables
     private int id;
+    private Socket socket;
     private ClientReader reader;
     private ClientWriter writer;
     private Queue<String> inputQueue;	// to store the information from client
     private Queue<String> outputQueue;	// to store the information to be sent
-
+    
     // constructor
-    Client(Socket s){
+    Client(Socket socket){
 	try {
 	    this.id = Client.ID;
+	    this.socket = socket;
 	    inputQueue  = new LinkedList<String>();
 	    outputQueue = new LinkedList<String>();
-	    reader  = new ClientReader(s.getInputStream(), this);
-	    writer  = new ClientWriter(s.getOutputStream(), this);
-	
+	    reader  = new ClientReader(socket.getInputStream(), this);
+	    writer  = new ClientWriter(socket.getOutputStream(), this);
+	    
 	    Thread readerThrd = new Thread(reader);
 	    Thread writerThrd = new Thread(writer);
 
@@ -59,41 +57,56 @@ class Client{
     }
 
     // methods
-
+    /**
+     * get ID from this Client.
+     * @return int id
+     */
     public int getID(){
 	return id;
     }
 
-    boolean isInputEmpty(){
+    public boolean isInputEmpty(){
 	return inputQueue.isEmpty();
     }
 
-    boolean isOutputEmpty(){
+    public boolean isOutputEmpty(){
 	return outputQueue.isEmpty();
     }
+    
+    public boolean inputEnqueue(String line){
+	return inputQueue.offer(line);
+    }
 
-    String inputDequeue(){
+    public boolean outputEnqueue(String line){
+	return outputQueue.offer(line);
+    }
+
+    public String inputDequeue(){
 	return inputQueue.poll();
     }
 
-    String inputExamine(){
-	return inputQueue.peek();
-    }
-
-    boolean inputEnqueue(String s){
-	return inputQueue.offer(s);
-    }
-
-    String outputDequeue(){
+    public String outputDequeue(){
 	return outputQueue.poll();
     }
 
-    String outputExamine(){
+    public String inputExamine(){
+	return inputQueue.peek();
+    }
+
+    public String outputExamine(){
 	return outputQueue.peek();
     }
 
-    boolean outputEnqueue(String s){
-	return outputQueue.offer(s);
+    
+    void close(){
+	try {
+	    socket.close();
+	}
+	catch (IOException ioe) {
+	    System.out.println("Error " + ioe.getMessage());
+	    ioe.printStackTrace();
+	}
+
     }
 
 }

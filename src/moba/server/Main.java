@@ -6,7 +6,7 @@
 package moba.server;
 
 
-import communicator.*;
+import moba.server.communicator.*;
 /**
  * Main 
  * @author Zhang Huayan
@@ -18,9 +18,7 @@ import communicator.*;
 public class Main{
     
     public static void main(String[] args) {
-	
 	Communicator communicator = Communicator.get();
-	communicator.setup();
     }
 
 

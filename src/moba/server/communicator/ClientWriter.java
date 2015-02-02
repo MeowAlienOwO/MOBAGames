@@ -15,7 +15,7 @@ import java.net.SocketException;
  * This class is used to write the information to clients according to 
  * the output message queue in the client class.
  */
-class ClientWriter implements Runnable{
+public class ClientWriter implements Runnable{
     // variable
     private OutputStreamWriter osw;
     private Client client;

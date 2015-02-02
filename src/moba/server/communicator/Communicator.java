@@ -42,6 +42,9 @@ public class Communicator{
 	clientLst = new LinkedList<Client>();
 
 	this.listener = SocketListener.get();
+
+	Thread t = new Thread(this.listener);
+	t.start();
     }
 
     // methods
@@ -53,8 +56,8 @@ public class Communicator{
     
     public Client findClient(int id){
 	for(int i = 0; i < clientLst.size(); i++){
-	    if(clientLst.getID() == id){
-		return clientLst.getID();
+	    if(clientLst.get(i).getID() == id){
+		return clientLst.get(i);
 	    }
 	}
 
@@ -92,7 +95,7 @@ public class Communicator{
     public String getLineFrom(int id){
 	Client client = findClient(id);
 
-	return client.inputEnqueue();
+	return client.inputDequeue();
     }
 
     /**
@@ -114,6 +117,10 @@ public class Communicator{
 	client.close();
 	unregister(client);
     }
+    
+    public List<Client> getClients(){
+	return clientLst;
+    }
 
     /**
      * set port number.
@@ -131,8 +138,7 @@ public class Communicator{
     int getPort(){
 	return this.port;
     }
-    
-    
+
 
     /**
      * register the client into the client list.
@@ -140,7 +146,7 @@ public class Communicator{
      * @return true if register successfully, 
      *         false otherwise.
      */
-    boolean register(Client client){
+    public boolean register(Client client){
 	if(clientLst.size() > 10){
 	    return false;
 	} 
@@ -164,21 +170,9 @@ public class Communicator{
      *         false otherwise.
      */
     boolean unregister(int id){
-	for(int i = 0; i < clientLst.size(); i++){
-	    if(clientLst.get(i).getID() == id){
-		return clientLst.remove(clientLst.get(i));
-	    }
-	}
-	return false;
+	return clientLst.remove(findClient(id));
     }
     
-
-    /**
-     * 
-     */
-    void setup(){
-	listener.start();
-    }
 }
 
 

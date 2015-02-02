@@ -15,7 +15,7 @@ import java.io.*;
  * the communication and regist the client.
  */
 
-class SocketListener extends Thread{
+public class SocketListener extends Thread{
     
     // static variable
     private static SocketListener listener;
