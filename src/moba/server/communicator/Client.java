@@ -28,8 +28,8 @@ public class Client{
     private Socket socket;
     private ClientReader reader;
     private ClientWriter writer;
-    private Queue<String> inputQueue;	// to store the information from client
-    private Queue<String> outputQueue;	// to store the information to be sent
+    private volatile Queue<String> inputQueue;	// to store the information from client
+    private volatile Queue<String> outputQueue;	// to store the information to be sent
     
     // constructor
     Client(Socket socket){
@@ -46,6 +46,7 @@ public class Client{
 
 	    readerThrd.start();
 	    writerThrd.start();
+	    System.out.println("Client created. ID:" + id);
 	    Client.ID++;
     
 	}
