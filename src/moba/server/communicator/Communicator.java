@@ -27,7 +27,9 @@ public class Communicator{
     // static methods
     public static Communicator get(){
 	if(Communicator.communicator == null){
-	    Communicator.communicator = new Communicator();
+	    // synchronized(Communicator.communicator){
+		Communicator.communicator = new Communicator();
+	    // }
 	}
 	return Communicator.communicator;
     }
@@ -39,12 +41,9 @@ public class Communicator{
     
     // constructors
     private Communicator(){
-	clientLst = new LinkedList<Client>();
+	this.clientLst = new LinkedList<Client>();
+	this.listener = new SocketListener(port, this);
 
-	this.listener = SocketListener.get();
-
-	Thread t = new Thread(this.listener);
-	t.start();
     }
 
     // methods
@@ -122,6 +121,11 @@ public class Communicator{
 	return clientLst;
     }
 
+    public void startListening(){
+	this.listener.start();
+
+    }
+
     /**
      * set port number.
      * @param int port
@@ -146,7 +150,7 @@ public class Communicator{
      * @return true if register successfully, 
      *         false otherwise.
      */
-    public boolean register(Client client){
+    boolean register(Client client){
 	if(clientLst.size() > 10){
 	    return false;
 	} 

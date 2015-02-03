@@ -43,7 +43,7 @@ public class SimpleLogic implements Runnable{
     // logic
     @Override
     public void run(){
-	List<Client> clientLst = Communicator.getClients();
+	List<Client> clientLst = Communicator.get().getClients();
 	while(!exit){
 	    for(int i = 0; i < clientLst.size(); i++){
 		Client client = clientLst.get(i);

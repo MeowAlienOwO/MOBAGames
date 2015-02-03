@@ -22,14 +22,12 @@ import moba.server.*;
 public class TestCommunicator{
     @Test
     public void test_running() {
-	
-    }
+	Communicator communicator = Communicator.get();
+	communicator.startListening();
 
-}
-class SimpleClient{
-    String[] data;
-    int port;
-    SimpleClient(int port);
+	Thread.sleep(5000);
+	communicator.stop();
+    }
 
 }
 
