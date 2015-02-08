@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="MOBAGames" default="run" basedir=".">
+
+  <target name="clean" >
+    <delete dir="${bin}" />
+  </target>
+
+  <target name="init" depends="clean">
+    <property name="src" value="src" />
+    <property name="bin" value="bin" />
+    <property name="test" value="test" />
+    <property name="lib" value="lib" />
+    <property name="testlib" value="test-lib" />
+    <!--property name="outputjar" value="jar" /-->
+    <property name="classpath" value="${bin}/:${lib}/:${lib}/*.jar" />
+    <property name="testpath"
+	      value="${classpath}:${testlib}/:${testlib}/*.jar" />
+    <mkdir dir="${src}" />
+    <mkdir dir="${bin}" />
+    <mkdir dir="${lib}" />
+    <mkdir dir="${test}" />
+    <mkdir dir="${testlib}" />
+  </target>
+
+
+  <target name="compile" depends="init" >
+    <javac srcdir="${src}/" destdir="${bin}/" classpath="${classpath}" />
+  </target>
+
+  <target name="test-compile" depends="compile">
+    <javac srcdir="${test}/" destdir="${bin}/" classpath="${testpath}" />
+  </target>
+
+  <target name="test" depends="test-compile">
+    <!-- java classpath="${classpath}" / -->
+  </target>
+
+  <target name="run" depends="test-compile">
+    
+  </target>
+  
+</project>
+

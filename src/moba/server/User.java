@@ -7,8 +7,6 @@
 
 package moba.server;
 
-
-
 /**
  * User
  * @author Zhang Huayan
@@ -19,8 +17,8 @@ package moba.server;
 class User{
     // variables
     private int id;
-    private int usrname;
-    private int passwd;
+    private String usrname;
+    private String passwd;
 
     // constructors
     User(int id){
