@@ -14,7 +14,7 @@
     <!--property name="outputjar" value="jar" /-->
     <property name="classpath" value="${bin}/:${lib}/:${lib}/*.jar" />
     <property name="testpath"
-	      value="${classpath}:${testlib}/:${testlib}/*.jar" />
+	      value="${classpath}:${testlib}/:${testlib}/hamcrest-core-1.3.jar:${testlib}/junit-4.11.jar" />
     <mkdir dir="${src}" />
     <mkdir dir="${bin}" />
     <mkdir dir="${lib}" />
