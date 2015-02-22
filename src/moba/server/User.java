@@ -7,8 +7,6 @@
 
 package moba.server;
 
-
-
 /**
  * User
  * @author Zhang Huayan
