@@ -13,7 +13,6 @@ import static org.junit.Assert.*;
 
 import moba.server.communicator.*;
 import moba.server.*;
-import moba.client.*;
 /**
  * Test class
  * @author Zhang Huayan

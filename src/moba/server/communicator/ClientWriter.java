@@ -31,16 +31,12 @@ public class ClientWriter implements Runnable{
     public void run(){
 	String line;
 	try {
-	    System.out.println("Client Writer start");	    
+	    
 	    while(true){
-
 		if(!client.isOutputEmpty()){
-		    line = client.outputDequeue();
-		    osw.write(line);
+		    osw.write(client.outputDequeue());
 		    osw.flush();
 		}
-
-
 	    }	    
 
 	}catch(SocketException se){
