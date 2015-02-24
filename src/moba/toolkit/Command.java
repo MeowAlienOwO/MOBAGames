@@ -18,13 +18,13 @@ public interface Command{
      * generate the type string, and one can determing the type by
      * processing the output
      */
-    public String getType();
+    public abstract String getType();
 
 
     /**
      * return the encoded string for network transformation
      */
-    public String encode();
+    public abstract String encode();
 }
 
 

@@ -15,7 +15,7 @@ interface CommandFactory{
 
 
     
-    Command decodeCommand(String cmd);
+    public abstract Command decodeCommand(String cmd);
 
     
 }

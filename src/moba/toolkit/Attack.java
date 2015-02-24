@@ -13,6 +13,8 @@ package moba.toolkit;
  * 
  */
 
+
+import moba.gameobj.*;
 public class Attack extends GameCommand{
     
     // variables
@@ -38,8 +40,8 @@ public class Attack extends GameCommand{
     @Override
     public String encode(){
 	return (Protocal.ATTACK + " " 
-		+ attack4m.getName() + " "
-		+ attack2.getName() + " "
+		+ attack4m.getType() + " "
+		+ attack2.getType() + " "
 		+ damage);
     }
 

@@ -24,7 +24,8 @@
 
 
   <target name="compile" depends="init" >
-    <javac srcdir="${src}/" destdir="${bin}/" classpath="${classpath}" />
+    <javac srcdir="${src}/" destdir="${bin}/" classpath="${classpath}"
+	   includeantruntime="false"/>
   </target>
 
   <target name="test-compile" depends="compile">

@@ -18,12 +18,12 @@ public class Login extends SystemCommand{
 
     // variables
     private String usrname;
-    // private String passwd;
+    private String passwd;
 
     // constructor
     public Login(String usrname, String passwd){
 	this.usrname = usrname;
-	// this.passwd  = passwd;
+	this.passwd  = passwd;
     }
     
     // methods
