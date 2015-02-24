@@ -64,52 +64,73 @@ public class Communicator{
     }
 
     /**
-     * Close client whose id matches.
-     * @param int id: the id number for the client
+     * send a line to client whose id is same as given.
+     * @param int id: the id that is used to identify the client
+     * @param String line: line to be sent
      */
+    public void send2Client(int id, String line){
+	Client client = findClient(id);
+	if(client != null){
+	    client.outputEnqueue(line);
+	}
+    }
+    
+    /**
+     * send a single line to all registered clients.
+     * @param String line: the line to be send
+     */
+
+    public void send2All(String line){
+	for(int i = 0; i < clientLst.size(); i++){
+	    clientLst.get(i).outputEnqueue(line);
+	}
+    }
+
+    /**
+     * get a line from client
+     * @param int id: the id of the client to be read
+     * @return String: line read from certain client.
+     */
+    public String getLineFrom(int id){
+	Client client = findClient(id);
+
+	return client.inputDequeue();
+    }
+
+    /**
+     * get all lines from client
+     * @param int id: the id of the client to be read
+     * @return List\<String\>: the list of all string read from client
+     */
+    public List<String> getAllFrom(int id){
+	Client client = findClient(id);
+	List<String> ret = new ArrayList<String>();
+	while(!client.isInputEmpty()){
+	    ret.add(client.inputDequeue());
+	}
+	return ret;
+    }
+
     public void closeClient(int id){
 	Client client = findClient(id);
 	client.close();
 	unregister(client);
     }
-
-    /**
-     * get the client list for further operation.
-     * directly add/delete/modify clients is FORBIDDEN.
-     * TODO: redesign this API
-     * @return List<Client> Client List
-     */
+    
     public List<Client> getClients(){
 	return clientLst;
     }
 
-
-    /**
-     * Start the module. this will start the SocketListener thread.
-     */
-
-
-    public void startModule(){
+    public void startListening(){
 	this.listener.start();
-    }
 
-    /**
-     * Close the module. this will close the listener, and all the clients in
-     * the list, if any.
-     */
-
-    public void close(){
-	listener.close();
-	for(int i = 0; i < clientLst.size(); i++){
-	    clientLst.get(i).close();
-	}
     }
 
     /**
      * set port number.
      * @param int port
      */
-    public void setPort(int port){
+    void setPort(int port){
 	// check whether port is valid 
 	if(port > 1023 && port < 65536){
 	    this.port = port;

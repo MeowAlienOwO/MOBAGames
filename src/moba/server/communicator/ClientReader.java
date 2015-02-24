@@ -31,12 +31,9 @@ public class ClientReader implements Runnable{
     @Override
     public void run(){
 	String line;
-	System.out.println("Client Reader start");
 	try {
 
 	    while((line = br.readLine()) != null){
-		System.out.println("reader has input:");
-		System.out.println(line);
 		if(isValid(line)){
 		    client.inputEnqueue(addTimeStamp(line));
 		}
@@ -44,7 +41,6 @@ public class ClientReader implements Runnable{
 
 	}catch(SocketException se){
 	    // normal end
-	    System.out.println("Client Reader stop");
 	}catch(IOException ioe){
 	    System.out.println("Error " + ioe.getMessage());
 	    ioe.printStackTrace();

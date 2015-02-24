@@ -22,10 +22,8 @@
     <mkdir dir="${testlib}" />
   </target>
 
-
   <target name="compile" depends="init" >
-    <javac srcdir="${src}/" destdir="${bin}/" classpath="${classpath}"
-	   includeantruntime="false"/>
+    <javac srcdir="${src}/" destdir="${bin}/" classpath="${classpath}" includeantruntime="false"/>
   </target>
 
   <target name="test-compile" depends="compile">
@@ -42,4 +40,3 @@
   </target>
   
 </project>
-

@@ -25,6 +25,7 @@ public class SocketListener extends Thread{
     SocketListener(int port, Communicator communicator){
 	this.port = port;
 	this.communicator = communicator;
+	// this.communicator = Communicator.get();
 	try {
 	    ss = new ServerSocket(port);
 	}catch(IOException ioe){
@@ -42,7 +43,6 @@ public class SocketListener extends Thread{
 
 	    while(true){
 		Client client = new Client(ss.accept());
-	
 		communicator.register(client);
 	    }
 	}catch(SocketException se){
@@ -63,6 +63,8 @@ public class SocketListener extends Thread{
 	    System.out.println("Error " + ioe.getMessage());
 	    ioe.printStackTrace();
 	}
+
+
     }
 }
 
