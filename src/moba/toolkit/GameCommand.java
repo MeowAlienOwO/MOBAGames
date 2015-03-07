@@ -16,7 +16,7 @@ public abstract class GameCommand implements Command{
 
     @Override
     public String getType(){
-	return "Game";
+	return Protocal.GAME;
     }
 }
 

@@ -5,6 +5,7 @@
 // Code:
 
 package moba.gameobj.features;
+import moba.gameobj.*;
 /**
  * Game feature: Spellable
  * @author Zhang Huayan
@@ -12,7 +13,7 @@ package moba.gameobj.features;
  * Able to perform spell.
  */
 
-public interface Spellable{
+public interface Spellable extends GameObject{
 
     public boolean isAbleToSpell();
     

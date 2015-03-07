@@ -19,10 +19,10 @@ public class Move extends GameCommand{
     // variable
     private int x;
     private int y;
-    private GameObject obj;
+    private Movable obj;
 
     // constructor
-    public Move(GameObject obj, int x, int y){
+    public Move(Movable obj, int x, int y){
 	this.obj = obj;
 	this.x = x;
 	this.y = y;
@@ -31,15 +31,20 @@ public class Move extends GameCommand{
     // method
     @Override
     public String getType(){
-	return (super.getType() + "." + "Move");
+	return (super.getType() 
+		+ Protocal.TYPE_SEPARATOR
+		+ Protocal.MOVE);
     }
 
+    /**
+     * encode move.
+     * format: "MOVE obj x y"
+     */
     @Override
     public String encode(){
-	return (Protocal.MOVE + " "
-		+ obj.getType() + " "
-		+ "(" + x + "," + y + ")"
-		);
+	return (Protocal.MOVE + Protocal.CMD_SEPARATOR
+		+ obj.getType() + Protocal.CMD_SEPARATOR
+	        + x + y);
     }
     
     

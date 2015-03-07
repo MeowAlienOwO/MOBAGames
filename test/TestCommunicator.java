@@ -2,34 +2,26 @@
 // TestCommunicator.java --- 
 // Filename: TestCommunicator.java
 // Description: 
+// Author: Zhang Huayan
+// ID number: 6511043
+// E-mail: zy11043@nottingham.edu.cn / MeowAlienOwO@gmail.com
+// Version: 
+// 
+
+// Commentary: 
+// 
+// 
+
+// Change Log:
+// Status: 
+// Table of Contents: 
+// 
+//     Update #: 1
+// 
+
 // Code:
-package moba.test;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import junit.framework.TestCase;
-import static org.junit.Assert.*;
 
-import moba.server.communicator.*;
-import moba.server.*;
-/**
- * Test class
- * @author Zhang Huayan
- * @version 1.0
- * Contain test cases for communicator module
- */
-public class TestCommunicator{
-    @Test
-    public void test_running() {
-	Communicator communicator = Communicator.get();
-	communicator.startListening();
-
-	Thread.sleep(5000);
-	communicator.stop();
-    }
-
-}
 
 // 
 // TestCommunicator.java ends here

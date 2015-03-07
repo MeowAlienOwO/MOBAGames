@@ -5,6 +5,7 @@
 // Code:
 
 package moba.toolkit;
+
 /**
  * Command: Login
  * @author Zhang Huayan
@@ -29,14 +30,20 @@ public class Login extends SystemCommand{
     // methods
     @Override
     public String getType(){
-	return (super.getType() + "." +"Login");
+	return (super.getType() 
+		+ Protocal.TYPE_SEPARATOR
+		+ Protocal.LOGIN);
     }
 
+    /**
+     * encode for Login command 
+     * format: "LOGIN usrname passwd"
+     */
     @Override
     public String encode(){
-	return (Protocal.LOGIN + " "
-		+ usrname + " "
-		+ passwd + " ");
+	return (Protocal.LOGIN + Protocal.CMD_SEPARATOR
+		+ usrname + Protocal.CMD_SEPARATOR
+		+ passwd + Protocal.CMD_SEPARATOR);
     }
 
     public String getUsrname(){

@@ -1,33 +1,27 @@
 //                              -*- Mode: Java -*- 
 // Test.java --- 
 // Filename: Test.java
+// Description: 
+// Author: Zhang Huayan
+// ID number: 6511043
+// E-mail: zy11043@nottingham.edu.cn / MeowAlienOwO@gmail.com
+// Version: 
+// 
+
+// Commentary: 
+// 
+// 
+
+// Change Log:
+// Status: 
+// Table of Contents: 
+// 
+//     Update #: 1
+// 
 
 // Code:
 
-package moba;
-import junit.framework.TestCase;
-import static org.junit.Assert.*;
 
-
-/**
- * Test class
- * @author Zhang Huayan
- * @version 1.0
- * Contain test cases.
- * <pre>
- * <h2> Change Log </h2>
- * 
- * </pre>
- */
-
-public class Test{
-    @Test
-    public void test_main() {
-	
-    }
-
-
-}
 
 // 
 // Test.java ends here

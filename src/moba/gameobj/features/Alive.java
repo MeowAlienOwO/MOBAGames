@@ -6,7 +6,7 @@
 
 
 package moba.gameobj.features;
-
+import moba.gameobj.*;
 /**
  * Game feature: Attackable
  * @author Zhang Huayan
@@ -14,7 +14,7 @@ package moba.gameobj.features;
  * Able to perform attack.
  */
 
-public interface Alive{
+public interface Alive extends GameObject{
     
     public abstract void damage(int damage);
 

@@ -15,7 +15,7 @@ public abstract class SystemCommand implements Command{
     
     @Override
     public String getType(){
-	return "System";
+	return Protocal.SYSTEM;
     }
 }
 

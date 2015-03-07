@@ -5,6 +5,8 @@
 // Code:
 
 package moba.gameobj.features;
+
+import moba.gameobj.*;
 /**
  * Game feature: Attackable
  * @author Zhang Huayan
@@ -12,7 +14,7 @@ package moba.gameobj.features;
  * Able to perform attack.
  */
 
-public interface Attackable{
+public interface Attackable extends GameObject{
     
     // public void attack(Alive enermy);
 

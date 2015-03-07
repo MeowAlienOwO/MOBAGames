@@ -4,6 +4,7 @@
 // Code:
 
 package moba.gameobj.features;
+import moba.gameobj.*;
 /**
  * Game feature: Movable
  * @author Zhang Huayan
@@ -11,7 +12,7 @@ package moba.gameobj.features;
  * Movable defines how to move.
  */
 
-public interface Movable{
+public interface Movable extends GameObject{
     
     public abstract void move(int x, int y);
 

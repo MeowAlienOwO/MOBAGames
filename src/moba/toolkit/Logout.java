@@ -18,7 +18,9 @@ public class Logout extends SystemCommand{
     
     @Override
     public String getType(){
-	return (super.getType() + "." + "Logout");
+	return (super.getType() 
+		+ Protocal.TYPE_SEPARATOR
+		+ Protocal.LOGOUT);
     }
 
     @Override

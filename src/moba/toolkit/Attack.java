@@ -5,6 +5,10 @@
 // Code:
 
 package moba.toolkit;
+
+
+import moba.gameobj.*;
+import moba.gameobj.features.*;
 /**
  * Command: Attack
  * @author Zhang Huayan
@@ -14,35 +18,36 @@ package moba.toolkit;
  */
 
 
-import moba.gameobj.*;
 public class Attack extends GameCommand{
     
     // variables
-    private GameObject attack4m;
-    private GameObject attack2;
-    private int damage;
+    private Attackable attack4m;
+    private Alive attack2;
 
     // constructor
-    public Attack(GameObject attack4m,
-		  GameObject attack2,
-		  int damage){
+    public Attack(Attackable attack4m,
+		  Alive attack2){
 	this.attack4m = attack4m;
 	this.attack2  = attack2;
-	this.damage   = damage;
 
     }
     @Override 
     public String getType(){
 
-	return (super.getType() + "." +"Attack");
+	return (super.getType() 
+		+ Protocal.TYPE_SEPARATOR
+		+Protocal.ATTACK);
     }
 
+    /**
+     * encode attack.
+     * format: "ATTACK from to"
+     */
     @Override
     public String encode(){
-	return (Protocal.ATTACK + " " 
-		+ attack4m.getType() + " "
-		+ attack2.getType() + " "
-		+ damage);
+	return (Protocal.ATTACK + Protocal.CMD_SEPARATOR 
+		+ attack4m.getType() + Protocal.CMD_SEPARATOR
+		+ attack2.getType() + Protocal.CMD_SEPARATOR);
     }
 
     public GameObject getAttack4m(){
@@ -53,9 +58,6 @@ public class Attack extends GameCommand{
 	return attack2;
     }
 
-    public int getDamage(){
-	return damage;
-    }
 }
 
 // 

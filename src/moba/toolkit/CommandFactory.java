@@ -11,11 +11,11 @@ package moba.toolkit;
  * Implement this interface to 
  */
 
-interface CommandFactory{
+public interface CommandFactory{
 
 
     
-    public abstract Command decodeCommand(String cmd);
+    public abstract Command decode(String cmd);
 
     
 }

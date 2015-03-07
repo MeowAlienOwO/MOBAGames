@@ -6,6 +6,7 @@
 
 
 package moba.gameobj.features;
+import moba.gameobj.*;
 /**
  * Game feature: Team
  * @author Zhang Huayan
@@ -15,7 +16,7 @@ package moba.gameobj.features;
  *
  */
 
-public interface HasTeam{
+public interface HasTeam extends GameObject{
 
     public abstract TeamEnum getTeam();
 
