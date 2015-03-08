@@ -14,7 +14,7 @@
     <!--property name="outputjar" value="jar" /-->
     <property name="classpath" value="${bin}/:${lib}/:${lib}/*.jar" />
     <property name="testpath"
-    	      value="${classpath}:${testlib}/:${testlib}/hamcrest-core-1.3.jar:${testlib}/junit-4.11.jar" />
+    	      value="${classpath}:${testlib}/:${testlib}/hamcrest-core-1.3.jar:${testlib}/junit.jar" />
     <!-- <property name="testpath" -->
     <!-- 	      value="${classpath}:${testlib}/:${testlib}/*.jar" /> -->
     <mkdir dir="${src}" />
@@ -34,10 +34,19 @@
 
   <target name="test" depends="test-compile">
     <!-- java classpath="${classpath}" / -->
+    <junit fork="no" printsummary="on" showoutput="on">
+      <classpath>
+	<!-- <pathelement location="${testpath}" /> -->
+	<pathelement path="${testpath}" />
+	<pathelement location="${classpath}" />
+      </classpath>
+      <formatter type="plain" usefile="false"/>
+      <test name="moba.test.TestLogic" />
+    </junit>
   </target>
 
-  <target name="run" depends="test-compile">
+  <target name="run" depends="test">
     
   </target>
-  
+
 </project>

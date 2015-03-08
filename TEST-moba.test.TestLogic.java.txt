@@ -1,0 +1,10 @@
+Testsuite: moba.test.TestLogic.java
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0 sec
+
+	Caused an ERROR
+moba.test.TestLogic.java
+java.lang.ClassNotFoundException: moba.test.TestLogic.java
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:344)
+
