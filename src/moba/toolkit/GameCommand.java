@@ -5,20 +5,21 @@
 // Code:
 
 package moba.toolkit;
+
 /**
  * GameCommand
+ * 
  * @author Zhang Huayan
- * @version 1.0
- * Define GameCommand that is available in the moba project.
+ * @version 1.0 Define GameCommand that is available in the moba project.
  */
 
-public abstract class GameCommand implements Command{
+public abstract class GameCommand implements Command {
 
-    @Override
-    public String getType(){
-	return Protocal.GAME;
-    }
+	@Override
+	public String getCommandType() {
+		return CmdConstants.GAME;
+	}
 }
 
-// 
+//
 // GameCommand.java ends here

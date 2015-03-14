@@ -1,27 +1,11 @@
-//                              -*- Mode: Java -*- 
-// Movable.java --- 
-// Filename: Movable.java
-// Code:
-
 package moba.gameobj.features;
-import moba.gameobj.*;
-/**
- * Game feature: Movable
- * @author Zhang Huayan
- * @version 1.0
- * Movable defines how to move.
- */
 
-public interface Movable extends GameObject{
+public interface Movable {
     
     public abstract void move(int x, int y);
 
-    public abstract int getX();
+    public abstract int getPositionX();
     
-    public abstract int getY();
+    public abstract int getPositionY();
 
-   
 }
-
-// 
-// Movable.java ends here

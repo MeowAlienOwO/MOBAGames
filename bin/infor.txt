@@ -1,3 +1,0 @@
-Exception in thread "main" java.lang.NullPointerException
-	at moba.server.communicator.Communicator.get(Communicator.java:30)
-	at moba.server.Main.main(Main.java:21)

@@ -8,50 +8,48 @@ package moba.toolkit;
 
 /**
  * Command: Login
+ * 
  * @author Zhang Huayan
- * @version 1.0
- * Defines the login command.
+ * @version 1.0 Defines the login command.
  * 
  */
 
+public class Login extends SystemCommand {
 
-public class Login extends SystemCommand{
+	// variables
+	private String username;
+	private String password;
 
-    // variables
-    private String usrname;
-    private String passwd;
+	// constructor
+	public Login(String name, String passwd) {
+		this.username = name;
+		this.password = passwd;
+	}
 
-    // constructor
-    public Login(String usrname, String passwd){
-	this.usrname = usrname;
-	this.passwd  = passwd;
-    }
-    
-    // methods
-    @Override
-    public String getType(){
-	return (super.getType() 
-		+ Protocal.TYPE_SEPARATOR
-		+ Protocal.LOGIN);
-    }
+	// methods
+	@Override
+	public String getCommandType() {
+		return (super.getCommandType() + CmdConstants.TYPE_SEPARATOR + CmdConstants.LOGIN);
+	}
 
-    /**
-     * encode for Login command 
-     * format: "LOGIN usrname passwd"
-     */
-    @Override
-    public String encode(){
-	return (Protocal.LOGIN + Protocal.CMD_SEPARATOR
-		+ usrname + Protocal.CMD_SEPARATOR
-		+ passwd + Protocal.CMD_SEPARATOR);
-    }
+	/**
+	 * encode for Login command format: "LOGIN username password"
+	 */
+	@Override
+	public String encode() {
+		return (CmdConstants.LOGIN + CmdConstants.CMD_SEPARATOR + getUsername()
+				+ CmdConstants.CMD_SEPARATOR + getPassword());
+	}
 
-    public String getUsrname(){
-	return usrname;
-    }
-    
+	public String getUsername() {
+		return username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
 }
 
-
-// 
+//
 // Login.java ends here

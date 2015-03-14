@@ -18,7 +18,7 @@ public interface Command{
      * generate the type string, and one can determing the type by
      * processing the output
      */
-    public abstract String getType();
+    public abstract String getCommandType();
 
 
     /**
