@@ -61,9 +61,9 @@ public class ClientReader implements Runnable {
      */
     private String addTimeStamp(String line) {
 
-        return (client.getClientId() + Communicator.INFOR_SEPARATOR +
-                System.currentTimeMillis() + Communicator.INFOR_SEPARATOR
-                + line);
+        return (System.currentTimeMillis() + Communicator.INFOR_SEPARATOR +
+                client.getClientId() + Communicator.INFOR_SEPARATOR +
+                line);
     }
 
 

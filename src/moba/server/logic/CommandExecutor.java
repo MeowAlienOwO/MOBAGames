@@ -36,23 +36,23 @@ class CommandExecutor{
 
     // methods
     public void execute(Command command){
-	String[] type = command.getType().split(".");
+	String[] type = command.getCommandType().split(".");
 	
-	if(type[0].equals(Protocal.SYSTEM)){
+	if(type[0].equals(CmdConstants.SYSTEM)){
 	    // execute system 
 
-	    if(type[1].equals(Protocal.LOGIN)){
+	    if(type[1].equals(CmdConstants.LOGIN)){
 		execLogin((Login)command);
-	    } else if(type[1].equals(Protocal.LOGOUT)){
+	    } else if(type[1].equals(CmdConstants.LOGOUT)){
 		execLogout((Logout)command);
 	    }
 
-	}else if (type[0].equals(Protocal.GAME)){
+	}else if (type[0].equals(CmdConstants.GAME)){
 	    // execute Game commands
 
-	    if(type[1].equals(Protocal.ATTACK)){
+	    if(type[1].equals(CmdConstants.ATTACK)){
 		execAttack((Attack)command);
-	    }else if(type[1].equals(Protocal.MOVE)){
+	    }else if(type[1].equals(CmdConstants.MOVE)){
 		execMove((Move)command);
 	    }
 	}

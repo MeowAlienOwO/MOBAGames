@@ -16,7 +16,7 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 30
+//     Update #: 53
 // 
 
 // Code:
@@ -38,24 +38,33 @@ import moba.toolkit.*;
 public class Logic{
 
     // variables
-    private List<Client> clientLst;
-    private Queue<String> commandStrLst;
-    private Queue<Command> commandLst;
+    private List<Client> clientList;
+    private volatile Queue<String> stringQueue;
+    private volatile Queue<Command> commandQueue;
     // constructor
-    public Logic(List<Client> clientLst){
-	this.clientLst = clientLst;
-
+    public Logic(List<Client> clientList){
+	this.clientList = clientList;
+        this.stringQueue = new LinkedList<String>();
+        this.commandQueue = new LinkedList<Command>();
 
     }
     // methods
     public void work(){
 	initialize();
-	
+        /* preprocessor: thread for putting strings into string list */
+        /* decoder: thread for changing string into cmd */
+        /* mainlogic: thread for executing cmd and update world*/
+    }
+
+    public void getString(){
+        
     }
 
     private void initialize(){
 	
     }
+
+    
 
 }
 

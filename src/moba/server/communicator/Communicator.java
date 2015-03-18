@@ -20,7 +20,7 @@ import java.util.*;
 public class Communicator {
 
     // static variables
-    public static final String INFOR_SEPARATOR = "|";
+    public static final String INFOR_SEPARATOR = "@";
     private static final int PORT_MIN = 1023;
     private static final int PORT_MAX = 65536;
     private static Communicator communicator;
