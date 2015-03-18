@@ -16,7 +16,7 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 49
+//     Update #: 63
 // 
 
 // Code:
@@ -40,19 +40,28 @@ import moba.toolkit.*;
 
 
 public class TestLogic{
+
+    /**
+     * Test CommandDecoder, which changes string into Command,
+     * and command encoding. Ideally, the CommandDecoder takes 
+     * a string, returns a command, and it's encode() method returns
+     * should be exactly the same as the input.
+     */
     @Test
-    public void test_CommandExecutor() {
+    public void test_CommandDecoder() {
 	String[] testStrings = {
 	    "LOGIN abc abc",
 	    "MOVE HeroA 1 0",
+            "ATTACK HeroB HeroA",
 	    "ATTACK HeroA HeroB",
 	    "LOGOUT"
 	};
-
+        
 	for(int i = 0; i < testStrings.length; i++){
 	    CommandDecoder decoder = new CommandDecoder();
 	    Command cmd = decoder.decode(testStrings[i]);
 	    assertEquals(cmd.encode(), testStrings[i]);
+            // assertEquals(1, 0);
 	}
 
     }

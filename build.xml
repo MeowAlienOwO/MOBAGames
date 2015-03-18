@@ -32,21 +32,21 @@
     <javac srcdir="${test}/" destdir="${bin}/" classpath="${testpath}" includeantruntime="false"/>
   </target>
 
-  <!-- <target name="test" depends="test-compile"> -->
+  <target name="test" depends="test-compile">
 
-  <!--   <junit fork="no" printsummary="on" showoutput="on"> -->
-  <!--     <classpath> -->
+    <junit fork="no" printsummary="on" showoutput="on">
+      <classpath>
 
-  <!-- 	<pathelement path="${testpath}" /> -->
-  <!-- 	<pathelement location="${classpath}" /> -->
-  <!--     </classpath> -->
-  <!--     <formatter type="plain" usefile="false"/> -->
-  <!--     <test name="moba.test.TestLogic" /> -->
-  <!--   </junit> -->
-  <!-- </target> -->
+  	<pathelement path="${testpath}" />
+  	<pathelement location="${classpath}" />
+      </classpath>
+      <formatter type="plain" usefile="false"/>
+      <test name="moba.test.TestLogic" />
+    </junit>
+  </target>
 
-  <!-- <target name="run" depends="test"> -->
-  <target name="run" depends="test-compile"> 
+  <target name="run" depends="test">
+  <!-- <target name="run" depends="test-compile">  -->
   </target>
 
 </project>

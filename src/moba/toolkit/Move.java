@@ -18,40 +18,40 @@ import moba.gameobj.features.*;
 
 public class Move extends GameCommand {
 
-	// variable
-	private int positionX;
-	private int positionY;
-	private Movable object;
+    // variable
+    private int positionX;
+    private int positionY;
+    private Movable object;
 
-	// constructor
-	public Move(Movable obj, int x, int y) {
-		this.object = obj;
-		this.positionX = x;
-		this.positionY = y;
-	}
+    // constructor
+    public Move(Movable obj, int x, int y) {
+        this.object = obj;
+        this.positionX = x;
+        this.positionY = y;
+    }
 
-	// method
-	@Override
-	public String getCommandType() {
-		return (super.getCommandType() + CmdConstants.TYPE_SEPARATOR + CmdConstants.MOVE);
-	}
+    // method
+    @Override
+    public String getCommandType() {
+        return (super.getCommandType() + CmdConstants.TYPE_SEPARATOR + CmdConstants.MOVE);
+    }
 
-	/**
-	 * encode move. format: "MOVE obj x y"
-	 */
-	@Override
-	public String encode() {
-		return (CmdConstants.MOVE + CmdConstants.CMD_SEPARATOR + object.toString()
-				+ CmdConstants.CMD_SEPARATOR + getPositionX() + CmdConstants.CMD_SEPARATOR + getPositionY());
-	}
+    /**
+     * encode move. format: "MOVE obj x y"
+     */
+    @Override
+    public String encode() {
+        return (CmdConstants.MOVE + CmdConstants.CMD_SEPARATOR + object.toString()
+                + CmdConstants.CMD_SEPARATOR + getPositionX() + CmdConstants.CMD_SEPARATOR + getPositionY());
+    }
 
-	public int getPositionX() {
-		return positionX;
-	}
+    public int getPositionX() {
+        return positionX;
+    }
 
-	public int getPositionY() {
-		return positionY;
-	}
+    public int getPositionY() {
+        return positionY;
+    }
 
 }
 

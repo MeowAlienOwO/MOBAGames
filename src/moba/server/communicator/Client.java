@@ -21,92 +21,96 @@ import java.util.*;
  */
 
 public class Client {
-	// static variables
-	private static int ID = 0; // id is the key to identify a certain client
+    // static variables
+    private static int ID = 0; // id is the key to identify a certain client
 
-	// variables
-	private int clientId;
-	private Socket socket;
-	private ClientReader reader;
-	private ClientWriter writer;
-	private volatile Queue<String> inputQueue; // to store the information from client
-	private volatile Queue<String> outputQueue; // to store the information to be sent
+    // variables
+    private int clientId;
+    private Socket socket;
+    private ClientReader reader;
+    private ClientWriter writer;
+    private volatile Queue<String> inputQueue; // to store the information from client
+    private volatile Queue<String> outputQueue; // to store the information to be sent
 
-	// constructor
-	Client(Socket socket) {
-		try {
-			this.clientId = Client.ID;
-			this.socket = socket;
-			inputQueue = new LinkedList<String>();
-			outputQueue = new LinkedList<String>();
-			reader = new ClientReader(socket.getInputStream(), this);
-			writer = new ClientWriter(socket.getOutputStream(), this);
+    // constructor
+    Client(Socket socket) {
+        try {
+            this.clientId = Client.ID;
+            this.socket = socket;
+            inputQueue = new LinkedList<String>();
+            outputQueue = new LinkedList<String>();
+            reader = new ClientReader(socket.getInputStream(), this);
+            writer = new ClientWriter(socket.getOutputStream(), this);
 
-			Thread readerThrd = new Thread(reader);
-			Thread writerThrd = new Thread(writer);
+            Thread readerThrd = new Thread(reader);
+            Thread writerThrd = new Thread(writer);
 
-			readerThrd.start();
-			writerThrd.start();
-			Client.ID++;
+            readerThrd.start();
+            writerThrd.start();
+            Client.ID++;
 
-		} catch (IOException ioe) {
-			System.out.println("Error: " + ioe.getMessage());
-			ioe.printStackTrace();
-		}
+        } catch (IOException ioe) {
+            System.out.println("Error: " + ioe.getMessage());
+            ioe.printStackTrace();
+        }
 
-	}
+    }
 
-	// methods
-	/**
-	 * get ID from this Client.
-	 * 
-	 * @return int id
-	 */
-	public int getClientId() {
-		return clientId;
-	}
+    // methods
+    /**
+     * get ID from this Client.
+     * 
+     * @return int id
+     */
+    public int getClientId() {
+        return clientId;
+    }
 
-	public boolean isInputEmpty() {
-		return inputQueue.isEmpty();
-	}
+    public boolean isInputEmpty() {
+        return inputQueue.isEmpty();
+    }
 
-	public boolean isOutputEmpty() {
-		return outputQueue.isEmpty();
-	}
+    public boolean isOutputEmpty() {
+        return outputQueue.isEmpty();
+    }
 
-	public boolean inputEnqueue(String line) {
-		return inputQueue.offer(line);
-	}
+    public boolean inputEnqueue(String line) {
+        return inputQueue.offer(line);
+    }
 
-	public boolean outputEnqueue(String line) {
-		return outputQueue.offer(line);
-	}
+    public boolean outputEnqueue(String line) {
+        return outputQueue.offer(line);
+    }
 
-	public String inputDequeue() {
-		return inputQueue.poll();
-	}
+    public String inputDequeue() {
+        return inputQueue.poll();
+    }
 
-	public String outputDequeue() {
-		return outputQueue.poll();
-	}
+    public String outputDequeue() {
+        return outputQueue.poll();
+    }
 
-	public String inputExamine() {
-		return inputQueue.peek();
-	}
+    public String inputExamine() {
+        return inputQueue.peek();
+    }
 
-	public String outputExamine() {
-		return outputQueue.peek();
-	}
+    public String outputExamine() {
+        return outputQueue.peek();
+    }
 
-	void close() {
-		try {
-			socket.close();
-		} catch (IOException ioe) {
-			System.out.println("Error: " + ioe.getMessage());
-			ioe.printStackTrace();
-		}
+    public boolean isClosed(){
+        return socket.isClosed();
+    }
 
-	}
+    void close() {
+        try {
+            socket.close();
+        } catch (IOException ioe) {
+            System.out.println("Error: " + ioe.getMessage());
+            ioe.printStackTrace();
+        }
+
+    }
 
 }
 //

@@ -16,7 +16,7 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 60
+//     Update #: 68
 // 
 
 // Code:
@@ -38,6 +38,7 @@ public class CommandDecoder implements CommandFactory{
     public Command decode(String cmd){
 	String[] splited = cmd.split(" ");
 	Command command = null;
+        GameObjectFactory factory = new GameObjectFactory();
 	if(splited[0].equals(Protocal.LOGIN)){
 	    String usrname = splited[1];
 	    String passwd  = splited[2];
@@ -45,29 +46,13 @@ public class CommandDecoder implements CommandFactory{
 	}else if(splited[0].equals(Protocal.LOGOUT)){
 	    command = new Logout();
 	}else if(splited[0].equals(Protocal.ATTACK)){
-	    Attackable from;
-	    Alive to;
-	    // those if-else blocks should then be replaced by find object
-	    if(splited[1].equals("HeroA")){
-		from = new TestHeroA(0, 0, 10, 10, 1, TeamEnum.LAWFUL);
-	    }else{
-		from = new TestHeroB(0, 0, 10, 10, 1, TeamEnum.CHAOTIC);
-	    }
-	    if(splited[2].equals("HeroB")){
-		to = new TestHeroB(0, 0, 10, 10, 1, TeamEnum.CHAOTIC);
-	    }else{
-		to = new TestHeroA(0, 0, 10, 10, 1, TeamEnum.LAWFUL);
-	    }
+	    Attacking from = factory.createHero(splited[1]);
+	    Attacked to = factory.createHero(splited[2]);
 	    command = new Attack(from, to);
 	}else if(splited[0].equals("MOVE")){
 	    Movable obj;
 	    int x, y;
-	    if(splited[1].equals("HeroA")){
-		obj = new TestHeroA(0, 0, 10, 10, 1, TeamEnum.LAWFUL);
-	    }else{
-		obj = new TestHeroB(0, 0, 10, 10, 1, TeamEnum.CHAOTIC);
-	    }
-	    
+            obj = factory.createHero(splited[1]);
 	    x = Integer.parseInt(splited[2]);
 	    y = Integer.parseInt(splited[3]);
 	    command = new Move(obj, x, y);

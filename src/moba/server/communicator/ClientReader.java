@@ -8,6 +8,8 @@ package moba.server.communicator;
 import java.io.*;
 import java.net.SocketException;
 
+
+
 /**
  * ClientReader
  * 
@@ -18,47 +20,53 @@ import java.net.SocketException;
  *          ignored.
  */
 public class ClientReader implements Runnable {
-	// variable
-	private BufferedReader reader;
-	private Client client;
-	private boolean connected;
+    // variable
+    private BufferedReader reader;
+    private Client client;
+    private boolean connected;
 	
-	// constructor
-	ClientReader(InputStream is, Client client) {
-		this.client = client;
-		this.reader = new BufferedReader(new InputStreamReader(is));
-		this.connected = true;
-	}
+    // constructor
+    ClientReader(InputStream is, Client client) {
+        this.client = client;
+        this.reader = new BufferedReader(new InputStreamReader(is));
+        this.connected = true;
+    }
 
-	// methods
-	@Override
-	public void run() {
-		String input;
-		try {
-			while (connected) {
-				input = reader.readLine();
-//				if (isValid(input)) {
-//					client.inputEnqueue(addTimeStamp(input));
-//				}
-				client.inputEnqueue(addTimeStamp(input));
-			}
+    // methods
+    @Override
+    public void run() {
+        String input;
+        try {
+            while (connected) {
+                input = reader.readLine();
+                //				if (isValid(input)) {
+                //					client.inputEnqueue(addTimeStamp(input));
+                //				}
+                client.inputEnqueue(addTimeStamp(input));
+            }
 
-		} catch (SocketException se) {
-			// normal end
-		} catch (IOException ioe) {
-			System.out.println("Error: " + ioe.getMessage());
-			ioe.printStackTrace();
-		}
-	}
+        } catch (SocketException se) {
+            // normal end
+        } catch (IOException ioe) {
+            System.out.println("Error: " + ioe.getMessage());
+            ioe.printStackTrace();
+        }
+    }
 
-	private boolean isValid(String line) {
-		// return SimpleLogic.checkProtocal(line);
-		return true;
-	}
 
-	private String addTimeStamp(String line) {
-		return line;
-	}
+    /**
+     * add necessary information.
+     * @require String line: the command to be processed;
+     * @return String: string with format: "ID|Time|command"
+     */
+    private String addTimeStamp(String line) {
+
+        return (client.getClientId() + Communicator.INFOR_SEPARATOR +
+                System.currentTimeMillis() + Communicator.INFOR_SEPARATOR
+                + line);
+    }
+
+
 }
 
 //

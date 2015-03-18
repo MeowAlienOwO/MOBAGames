@@ -48,9 +48,11 @@ public class SimpleLogic implements Runnable {
 		while (!exit) {
 			for (int i = 0; i < clientList.size(); i++) {
 				Client client = clientList.get(i);
+
 				while (!client.isInputEmpty()) {
-					System.out.println(client.getClientId() + " "
-							+ client.inputDequeue());
+					System.out.println(client.getClientId()
+                                                           + " " 
+                                                           + client.inputDequeue());
 					client.outputEnqueue("OK\n");
 				}
 			}
