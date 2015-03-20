@@ -15,16 +15,26 @@ package moba.toolkit;
  */
 
 public class Logout extends SystemCommand {
+    // variables
+    private String username;
+    // constructors
+    public Logout(String username){
+        this.username = username;
+    }
+    // methods
+    @Override
+    public String getCommandType() {
+        return (super.getCommandType() + CmdConstants.TYPE_SEPARATOR + CmdConstants.LOGOUT);
+    }
 
-	@Override
-	public String getCommandType() {
-		return (super.getCommandType() + CmdConstants.TYPE_SEPARATOR + CmdConstants.LOGOUT);
-	}
+    @Override
+    public String encode() {
+        return CmdConstants.LOGOUT + CmdConstants.CMD_SEPARATOR + username;
+    }
 
-	@Override
-	public String encode() {
-		return CmdConstants.LOGOUT;
-	}
+    public String getUsername(){
+        return username;
+    }
 }
 
 //

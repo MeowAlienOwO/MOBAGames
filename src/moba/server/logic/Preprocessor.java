@@ -16,7 +16,7 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 148
+//     Update #: 290
 // 
 
 // Code:
@@ -26,6 +26,7 @@ import moba.toolkit.*;
 import moba.gameobj.*;
 import moba.server.communicator.*;
 import java.util.*;
+
 /**
  * Preprocessor
  * @author Zhang Huayan
@@ -38,24 +39,30 @@ public class Preprocessor implements Runnable{
 
     // variables
     private List<Client> clientList;
-    private Queue<String> stringQueue;
-    // private Queue<Command> commandQueue;
+    // private Queue<String> stringQueue;
+    
+    private volatile boolean exit;
+    private CommandDecoder decoder;
+    private Queue<ClientCommand> commandQueue;
 
 
     // constructor 
-    public Preprocessor(List<Client> clientList, 
-                        Queue<String> stringQueue){
-                        // Queue<Command> commandQueue){
+    public Preprocessor(List<Client> clientList,
+                        Queue<ClientCommand> commandQueue){
+        this.decoder = new CommandDecoder();
         this.clientList   = clientList;
-        this.stringQueue  = stringQueue;
-        // this.commandQueue = commandQueue;
-        
+        this.commandQueue = commandQueue;
+        this.exit = false;
     }
     
-    
+    @Override
     public void run(){
-        
+        System.out.println("Preprocessor starts");
+        while(!exit){
 
+            checkClients();
+            sort();
+        }
     }
 
     /**
@@ -63,41 +70,95 @@ public class Preprocessor implements Runnable{
      * input should be a series of queues which are already been sorted by
      * time,
      * output should be a queue containing all sorted results.
-     * @require client lists (when testing, using a set of queues)
+     * @require client listsnn (when testing, using a set of queues)
      * @return a queue of string sorted by time
      */
-
-    // public void sort(List<Client> clientList){
-    public void sort(List<Queue<String>> input){
-
-        int time;
+    public void sort(){
+        Long time;
         int id;
         boolean isAllEmpty;
-
         do{
             id = Integer.MIN_VALUE;
-            int mintime = Integer.MAX_VALUE;
+            Long mintime = new Long(Long.MAX_VALUE);
             // check from all queue, find the one has minimal time and 
             // keep the id
             isAllEmpty = true;
-            for(int i = 0; i < input.size(); i++){
-                String command = input.get(i).peek();
-                isAllEmpty = isAllEmpty && (command == null); // check if all is empty
-                if(command != null) {
-                    time = getTime(command); 
-                    if(time < mintime){
+            for(int i = 0; i < clientList.size(); i++){
+                Client client = clientList.get(i);
+                // System.out.println("Client id = " + client.getClientId());
+                isAllEmpty = isAllEmpty && (client.isInputEmpty()); 
+                // System.out.println("isAllEmpty = " + isAllEmpty);
+                if(!client.isInputEmpty()) {
+                    String command = client.inputExamine();
+                    System.out.println("get command:" + command);
+                    time = decoder.getTime(command.split(Communicator.INFOR_SEPARATOR)[0]); 
+                    if(mintime.compareTo(time) > 0){ // compareTo() returns > 0 if time is less than mintime
                         mintime = time;
-                        id = i;
+                        id = client.getClientId();
                     }
                 }
             } // endfor
 
-            // put the minimal one into the output queue
-            if(id >= 0 && id <= 9){
-                stringQueue.offer(getCommand(input.get(id).poll()));
+            // get the minimal one, create new ClientCommand and put into command list
+            if(id >= 0){
+                String strIntoQueue = Communicator.get().findClient(id).inputDequeue();
+                // System.out.println("StrIntoQueue = " + strIntoQueue);
+                commandQueue.offer(decoder.createClientCommand(strIntoQueue));
+                // commandQueue.offer(decoder.createClientCommand(Communicator.get().findClient(id).inputDequeue()));
+                // stringQueue.offer(Communicator.get().findClient(id).inputDequeue());
             }
 
         } while(!isAllEmpty);
+
+
+    }
+
+    public void close(){
+
+        this.exit = true;
+    }
+
+    // public void sort_algorithm(List<Queue<String>> input){
+
+    //     int time;
+    //     int id;
+    //     boolean isAllEmpty;
+
+    //     do{
+    //         id = Integer.MIN_VALUE;
+    //         int mintime = Integer.MAX_VALUE;
+    //         // check from all queue, find the one has minimal time and 
+    //         // keep the id
+    //         isAllEmpty = true;
+    //         for(int i = 0; i < input.size(); i++){
+    //             String command = input.get(i).peek();
+    //             isAllEmpty = isAllEmpty && (command == null); // check if all is empty
+    //             if(command != null) {
+    //                 time = getTime(command); 
+    //                 if(time < mintime){
+    //                     mintime = time;
+    //                     id = i;
+    //                 }
+    //             }
+    //         } // endfor
+
+    //         // put the minimal one into the output queue
+    //         if(id >= 0 && id <= 9){
+    //             // stringQueue.offer(getCommand(input.get(id).poll()));
+    //         }
+
+    //     } while(!isAllEmpty);
+    // }
+
+
+    // check if there is clients not connecting
+    private void checkClients(){
+        for(int i = 0; i < clientList.size(); i++){
+            Client client = clientList.get(i);
+            if(client.isClosed()){
+                Communicator.get().unregister(client);
+            }
+        }
     }
 
     
@@ -105,6 +166,11 @@ public class Preprocessor implements Runnable{
         // return Integer.parseInt(command.split(Communicator.INFOR_SEPARATOR)[0]);
         return Integer.parseInt(command.split(Communicator.INFOR_SEPARATOR)[0]);
     }
+    
+    // public Long getLongTime(String command){
+    //     return new Long(command.split(Communicator.INFOR_SEPARATOR)[0]);
+    // }
+    
 
     public String getCommand(String command){
 

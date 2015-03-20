@@ -39,7 +39,7 @@ public class Communicator {
     // variables
     private int port = 1234; // default port num
     private SocketListener listener;
-    private List<Client> clientList;
+    private volatile List<Client> clientList;
     private volatile boolean exit;
 
     // constructors
@@ -166,6 +166,7 @@ public class Communicator {
      * @return true if unregister successfully, false otherwise.
      */
     public boolean unregister(Client client) {
+        client.close();
         return clientList.remove(client);
     }
 

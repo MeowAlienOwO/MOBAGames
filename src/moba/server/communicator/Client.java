@@ -62,43 +62,43 @@ public class Client {
      * 
      * @return int id
      */
-    public int getClientId() {
+    public synchronized int getClientId() {
         return clientId;
     }
 
-    public boolean isInputEmpty() {
+    public synchronized boolean isInputEmpty() {
         return inputQueue.isEmpty();
     }
 
-    public boolean isOutputEmpty() {
+    public synchronized boolean isOutputEmpty() {
         return outputQueue.isEmpty();
     }
 
-    public boolean inputEnqueue(String line) {
+    public synchronized boolean inputEnqueue(String line) {
         return inputQueue.offer(line);
     }
 
-    public boolean outputEnqueue(String line) {
+    public synchronized boolean outputEnqueue(String line) {
         return outputQueue.offer(line);
     }
 
-    public String inputDequeue() {
+    public synchronized String inputDequeue() {
         return inputQueue.poll();
     }
 
-    public String outputDequeue() {
+    public synchronized String outputDequeue() {
         return outputQueue.poll();
     }
 
-    public String inputExamine() {
+    public synchronized String inputExamine() {
         return inputQueue.peek();
     }
 
-    public String outputExamine() {
+    public synchronized String outputExamine() {
         return outputQueue.peek();
     }
 
-    public boolean isClosed(){
+    public synchronized boolean isClosed(){
         return socket.isClosed();
     }
 

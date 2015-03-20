@@ -45,6 +45,10 @@ public class Move extends GameCommand {
                 + CmdConstants.CMD_SEPARATOR + getPositionX() + CmdConstants.CMD_SEPARATOR + getPositionY());
     }
 
+    public Movable getObject(){
+        return object;
+    }
+
     public int getPositionX() {
         return positionX;
     }

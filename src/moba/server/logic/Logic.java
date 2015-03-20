@@ -16,7 +16,7 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 53
+//     Update #: 99
 // 
 
 // Code:
@@ -39,24 +39,33 @@ public class Logic{
 
     // variables
     private List<Client> clientList;
-    private volatile Queue<String> stringQueue;
-    private volatile Queue<Command> commandQueue;
+    // private volatile Queue<String> stringQueue;
+    private volatile Queue<ClientCommand> commandQueue;
+    private Preprocessor preprocessor;
+    private CommandDecoder decoder;
+    private Judge judge;
     // constructor
     public Logic(List<Client> clientList){
 	this.clientList = clientList;
-        this.stringQueue = new LinkedList<String>();
-        this.commandQueue = new LinkedList<Command>();
-
+        // this.stringQueue = new LinkedList<String>();
+        this.commandQueue = new LinkedList<ClientCommand>();
+        this.preprocessor = new Preprocessor(clientList, commandQueue);
+        // this.decoder = new CommandDecoder(stringQueue, commandQueue);
+        this.judge = new Judge(clientList, commandQueue);
     }
     // methods
     public void work(){
 	initialize();
-        /* preprocessor: thread for putting strings into string list */
-        /* decoder: thread for changing string into cmd */
-        /* mainlogic: thread for executing cmd and update world*/
-    }
+        // preprocessor.sort();
+        
+        // judge.executeCommand();
 
-    public void getString(){
+        /* preprocessor: thread for putting strings into string list */
+        Thread preprocessorThread = new Thread(preprocessor, "Preprocessor");
+        preprocessorThread.start();
+        /* judge: thread for executing cmd and update world */
+        Thread judgeThread = new Thread(judge, "Judge");
+        judgeThread.start();
         
     }
 
@@ -64,6 +73,11 @@ public class Logic{
 	
     }
 
+    public void close(){
+        preprocessor.close();
+        
+        judge.close();
+    }
     
 
 }

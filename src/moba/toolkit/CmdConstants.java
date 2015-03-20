@@ -24,7 +24,7 @@ public class CmdConstants {
 	public static final String ATTACK = "ATTACK";
 	public static final String SYSTEM = "SYS";
 	public static final String GAME = "GAME";
-	public static final String TYPE_SEPARATOR = ".";
+	public static final String TYPE_SEPARATOR = "."; // need to use "\\." to split
 	public static final String CMD_SEPARATOR = " ";
 
 }

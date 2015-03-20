@@ -57,7 +57,22 @@ public class Hero implements GameObject, Movable, Attacking, Attacked,
      @Override
      public void move(int x, int y) {
          // Algorithm for moving
+         if(positionX < x){
+             positionX++;
+         }else if(positionX > x){
+             positionX--;
+         }else{
+             // move x finished
+         }
 
+         if(positionY < y){
+             positionY++;
+         }else if(positionY > y){
+             positionY--;
+         }else{
+             // move y finished
+         }
+         
      }
 
      @Override

@@ -16,14 +16,14 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 26
+//     Update #: 29
 // 
 
 
-package moba.gameobj;
+package moba.server.database;
 
 import moba.gameobj.features.*;
-
+import moba.gameobj.*;
 /**
  * GameObjectFactory
  * 
@@ -42,6 +42,7 @@ public class GameObjectFactory{
         }else if(name.equals("HeroB")){
             hero = new Hero(name, 0, 0, 10, 10, 2, TeamEnum.CHAOTIC, 100, 0);
         }
+        
         return hero;
     }
 
