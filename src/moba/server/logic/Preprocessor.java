@@ -16,7 +16,7 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 290
+//     Update #: 293
 // 
 
 // Code:
@@ -90,7 +90,7 @@ public class Preprocessor implements Runnable{
                 // System.out.println("isAllEmpty = " + isAllEmpty);
                 if(!client.isInputEmpty()) {
                     String command = client.inputExamine();
-                    System.out.println("get command:" + command);
+                    // System.out.println("get command:" + command);
                     time = decoder.getTime(command.split(Communicator.INFOR_SEPARATOR)[0]); 
                     if(mintime.compareTo(time) > 0){ // compareTo() returns > 0 if time is less than mintime
                         mintime = time;
@@ -102,10 +102,9 @@ public class Preprocessor implements Runnable{
             // get the minimal one, create new ClientCommand and put into command list
             if(id >= 0){
                 String strIntoQueue = Communicator.get().findClient(id).inputDequeue();
-                // System.out.println("StrIntoQueue = " + strIntoQueue);
+
                 commandQueue.offer(decoder.createClientCommand(strIntoQueue));
-                // commandQueue.offer(decoder.createClientCommand(Communicator.get().findClient(id).inputDequeue()));
-                // stringQueue.offer(Communicator.get().findClient(id).inputDequeue());
+
             }
 
         } while(!isAllEmpty);

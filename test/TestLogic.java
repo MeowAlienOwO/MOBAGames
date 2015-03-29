@@ -16,7 +16,7 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 269
+//     Update #: 425
 // 
 
 // Code:
@@ -24,6 +24,8 @@ package moba.test;
 
 import junit.framework.TestCase;
 import static org.junit.Assert.*;
+import static org.junit.matchers.JUnitMatchers.*;
+import static org.hamcrest.CoreMatchers.*;
 import org.junit.*;
 
 import moba.server.*;
@@ -31,6 +33,7 @@ import moba.server.logic.*;
 import moba.gameobj.*;
 import moba.toolkit.*;
 import moba.server.communicator.*;
+import moba.server.database.*;
 import java.util.*;
 /**
  * TestLogic
@@ -230,7 +233,107 @@ public class TestLogic{
             assertEquals(decoder.getTime(test[i]), res[i]);
         }
     }
+    // @Rule 
+    // public ExpectedException thrown = ExpectedException.none();
 
+    @Test
+    public void test_Priority_Queue() {
+        Queue<ClientCommand> cmds = new LinkedList<ClientCommand>();
+        GameObjectFactory factory = new GameObjectFactory();
+        Hero a = factory.createHero("HeroA");
+        Hero b = factory.createHero("HeroB");
+        Judge judge = new Judge(null, cmds);
+        PriorityQueue<ClientCommand> res;
+
+
+        
+        // test for same priority
+        ClientCommand[] data1 = {
+            new ClientCommand(new Attack(a, b), null, 10l),
+            new ClientCommand(new Attack(a, b), null, 10l)
+        };                      // id: 0, 1
+        for(int i = 0; i < data1.length; i++){
+            cmds.add(data1[i]);
+        }
+
+
+        assertEquals(false, cmds.isEmpty());
+
+        res = judge.createPriorityQueue(cmds);
+
+        assertEquals(true, cmds.isEmpty());
+        assertEquals(0, res.poll().getID());
+        assertEquals(1, res.poll().getID());
+        assertEquals(true, res.isEmpty());
+
+        // since there will be an while loop for
+        // checking whether the input queue is empty,
+        // we needn't check this case. however, if
+        // put an empty queue into the method somewhere,
+        // it will return NullPointerException.
+        try {
+            res = judge.createPriorityQueue(cmds);
+            fail("Expected a NullPointerException is been thrown");
+        }catch (NullPointerException npe) {
+            // assertThat(npe.getMessage(), is("null"));
+
+        }
+
+        // test for different priority
+        ClientCommand[] data2 = {
+            new ClientCommand(new Move(a, 0, 1), null, 10l),
+            new ClientCommand(new Attack(a, b), null, 10l),
+            new ClientCommand(new Attack(a, b), null, 10l)
+        };                      // id: 2,3,4
+        assertEquals(true, cmds.isEmpty());
+        assertEquals(true, res.isEmpty());
+        assertEquals(2, data2[0].getID());
+        assertEquals(3, data2[1].getID());
+        assertEquals(4, data2[2].getID());
+        for(int i = 0; i < data2.length; i++){
+            cmds.add(data2[i]);
+        }
+
+        assertEquals(false, cmds.isEmpty());
+        assertEquals(true, res.isEmpty());
+        res = judge.createPriorityQueue(cmds);
+
+        assertEquals(true, cmds.isEmpty());
+        assertEquals(3, res.poll().getID());
+        assertEquals(4, res.poll().getID());
+        assertEquals(2, res.poll().getID());
+        assertEquals(true, res.isEmpty());
+
+
+        // test for system commands
+        ClientCommand[] data3 = {
+            new ClientCommand(new Move(a, 0, 1), null, 10l),
+            new ClientCommand(new Attack(a, b), null, 10l),
+            new ClientCommand(new Login("hello", "world"), null, 10l)
+        };                      // id: 5,6,7
+        assertEquals(true, cmds.isEmpty());
+        assertEquals(true, res.isEmpty());
+        assertEquals(5, data3[0].getID());
+        assertEquals(6, data3[1].getID());
+        assertEquals(7, data3[2].getID());
+        for(int i = 0; i < data3.length; i++){
+            cmds.add(data3[i]);
+        }
+
+        assertEquals(false, cmds.isEmpty());
+        assertEquals(true, res.isEmpty());
+        res = judge.createPriorityQueue(cmds);
+
+        assertEquals(true, cmds.isEmpty());
+        assertEquals(7, res.poll().getID());
+        assertEquals(6, res.poll().getID());
+        assertEquals(5, res.poll().getID());
+        assertEquals(true, res.isEmpty());
+        
+        
+    }
+
+    
 }
 // 
 // TestLogic.java ends here

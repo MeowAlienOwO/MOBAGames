@@ -131,4 +131,54 @@ public class Hero implements GameObject, Movable, Attacking, Attacked,
         }
     }
 
+
+    /* this part is a series of set/get method which is used in 
+     server database. infact, those methods above should be refactoried 
+    using the basic function below. so as the interfaces.*/
+
+    public void setHealth(int hp){
+        this.healthPoint = hp;
+    }
+
+    public int getHealth(){ 
+        return healthPoint;
+    }
+
+    public void setHealthMax(int hpmax){
+        this.healthPointMax = hpmax;
+    }
+
+    public int getHealthMax(){ 
+        return healthPointMax;
+    }
+
+    public void setAttackDamage(int attack){
+        this.attackDamage = attack;
+    }
+
+    public void getAttackDamage(){ 
+        return attackDamage;
+    }
+
+    public void setGold(int gold){
+        this.gold = gold;
+    }
+
+    public int getGold(int gold){
+        return gold;
+    }
+
+    public void setExperience(int experience){
+        this.experience = experience;
+    }
+
+    public int getExperience(){
+        return experience;
+    }
+
+    public void setTeam(TeamEnum team){
+        this.team = team;
+    }
+
+
 }

@@ -1,6 +1,6 @@
 //                              -*- Mode: Java -*- 
-// DataBase.java --- 
-// Filename: DataBase.java
+// ChangeHandler.java --- 
+// Filename: ChangeHandler.java
 // Description: 
 // Author: Zhang Huayan
 // ID number: 6511043
@@ -16,27 +16,12 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 12
+//     Update #: 1
 // 
 
 // Code:
 
-package moba.server.database;
 
-public class DataBase{
-
-    // variables
-    /* gameobject db */
-    
-    /* map db */
-    /* event queue */
-
-    // constructors
-
-    // methods
-
-    
-}
 
 // 
-// DataBase.java ends here
+// ChangeHandler.java ends here

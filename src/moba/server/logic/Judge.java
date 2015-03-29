@@ -16,7 +16,7 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 94
+//     Update #: 216
 // 
 
 // Code:
@@ -63,7 +63,6 @@ public class Judge implements Runnable{
         System.out.println("Judge start");
         while(!exit){
 
-     
 
             executeCommand();
             
@@ -83,11 +82,53 @@ public class Judge implements Runnable{
         
     }
 
-    public void executeCommand(){
-            while(!commandQueue.isEmpty()){
-                executor.execute(commandQueue.poll());
-            }
+    /**
+     * execute command
+     * firstly put all commands has same time into priority queue
+     * according to their priority
+     * then execute all the commands which are already inserted into
+     * priority queue.
+     */
 
+    public void executeCommand(){
+        int time;
+        PriorityQueue<ClientCommand> priorityQueue;
+        while(!commandQueue.isEmpty()){
+            // create priority queue
+            priorityQueue = createPriorityQueue(commandQueue);
+            // execute command
+            while(priorityQueue.peek() != null){
+                executor.execute(priorityQueue.poll());
+            }
+        }
+
+    }
+
+    public PriorityQueue<ClientCommand> createPriorityQueue(Queue<ClientCommand> queue){
+        PriorityQueue<ClientCommand> priorityQueue
+            = new PriorityQueue<ClientCommand>(new Comparator<ClientCommand>() {
+                    public int compare(ClientCommand c1, ClientCommand c2){
+                        
+                        if(c1.getPriority() > c2.getPriority()){
+                            return -1;
+                        }else if(c1.getPriority() < c2.getPriority()){
+                            return 1;
+                        }else{
+                            return 0;
+                        }
+                    }
+                });
+            // priorityQueue.clear(); // initialize
+            // create priority queue
+            do{
+                priorityQueue.offer(commandQueue.poll());
+            } while(commandQueue.peek() != null 
+                    && isSametime(commandQueue.peek(), priorityQueue.peek()));
+            return priorityQueue;
+    }
+
+    private boolean isSametime(ClientCommand c1, ClientCommand c2){
+        return c1.getTime() == c2.getTime();
     }
 
     
