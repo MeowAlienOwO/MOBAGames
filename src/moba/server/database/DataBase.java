@@ -16,24 +16,55 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 12
+//     Update #: 93
 // 
 
 // Code:
 
 package moba.server.database;
 
+
+import moba.gameobj.*;
+import java.util.*;
+/**
+ * Database stores all game object information.
+ * Including Heros, Minons, Items...
+ */
+
 public class DataBase{
-
     // variables
-    /* gameobject db */
+    private Map<String, Hero> heroMap;
+    private List<Minon> minonList;
+    private List<User> userList;
     
-    /* map db */
-    /* event queue */
-
     // constructors
-
+    public DataBase(){
+        this.heroMap = new HashMap<String, Hero>();
+        this.minonList = new ArrayList<Minon>();
+        this.userList = new ArrayList<User>(10);
+    }
     // methods
+    public User findUser(String username){
+        for(int i = 0; i < userList.size(); i++){
+            User temp = userList.get(i);
+            if(temp.getUsername().equals(username)){
+                return temp;
+            }
+        }
+        return null;
+    }
+
+    public void userRegister(User user){
+        if(userList.size() <= 10){
+            userList.add(user);
+        }
+    }
+
+    public void userUnregister(User user){
+        if(userList.contains(user)){
+            userList.remove(user);
+        }
+    }
 
     
 }
