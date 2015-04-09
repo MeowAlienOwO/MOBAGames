@@ -29,8 +29,8 @@ public abstract class Tower implements GameObject, Alive, Attacking, Attacked, T
     }
 		
     @Override
-    public int attacking(int hp) {
-        return hp - attackDamage;
+    public int attacking() {
+        return attackDamage;
     }
 
     @Override

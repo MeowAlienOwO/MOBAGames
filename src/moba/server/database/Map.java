@@ -16,7 +16,7 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 147
+//     Update #: 150
 // 
 
 // Code:
@@ -48,7 +48,7 @@ public class Map{
     
     // constructor
     public Map(String path){
-        this.filtepath = path;
+        this.filepath = path;
         if(!initialize()){
             System.out.println("Map not initialized!");
             // deal with the case that map is not initialized
@@ -84,8 +84,8 @@ public class Map{
         }
 
         catch (IOException ioe) {
-            System.out.println("Error " + e.getMessage());
-            e.printStackTrace();
+            System.out.println("Error " + ioe.getMessage());
+            ioe.printStackTrace();
             return false;
         }
 

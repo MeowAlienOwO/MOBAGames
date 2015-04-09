@@ -16,7 +16,7 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 173
+//     Update #: 250
 // 
 
 // Code:
@@ -27,6 +27,7 @@ import moba.toolkit.*;
 import moba.gameobj.*;
 import moba.gameobj.features.*;
 import moba.server.communicator.*;
+import moba.server.database.*;
 import java.util.*;
 
 /**
@@ -36,17 +37,18 @@ import java.util.*;
  * Command Executor execute the command, and change relative datas.
  */
 
-class CommandExecutor {
+class CommandExecutor{
 
     // variables
     private List<Client> clientList;
     private Queue<ClientCommand> commandQueue;
-
+    private DataBase database;
     // constructor
     public CommandExecutor(List<Client> clientList,
                            Queue<ClientCommand> commandQueue){
         this.clientList = clientList;
         this.commandQueue = commandQueue;
+        this.database = DataBase.get();
     }
 
     // methods
@@ -77,43 +79,31 @@ class CommandExecutor {
 
    
     private void execLogin(Login command, Client client){
+        // TODO: detect login fail: need to change methods
+        // in database.user to throw exception
+        User user = new User(command.getUsername(), command.getPassword(), client);
+        database.userRegister(user);
+        database.addEvent(CmdConstants.WELCOME + CmdConstants.CMD_SEPARATOR + user.getUsername());
         client.outputEnqueue("OK");
-        for(int i = 0; i < clientList.size(); i++){
-            Client tempClient = clientList.get(i);
-            if(tempClient.getClientId() != client.getClientId()){
-                tempClient.outputEnqueue("Welcome " + command.getUsername());
-            }
-        }
     }
     
     private void execLogout(Logout command, Client client){
+        User user = database.findUser(command.getUsername());
+        database.userUnregister(user);
+        database.addEvent(CmdConstants.GOODBYE + CmdConstants.CMD_SEPARATOR + user.getUsername());
         client.outputEnqueue("Bye");
-
-        for(int i = 0; i < clientList.size(); i++){
-            Client tempClient = clientList.get(i);
-            if(tempClient.getClientId() != client.getClientId()){
-                tempClient.outputEnqueue("Goodbye " + command.getUsername());
-            }
-        }
-        try {
-            Thread.sleep(1);            
-        }
-        catch (Throwable e) {
-            System.out.println("Error " + e.getMessage());
-            e.printStackTrace();
-        }
-
-
-        Communicator.get().unregister(client);
+        
     }
 
     private void execAttack(Attack command, Client client){
+        Attacking from = command.getAttackFrom();
+        Attacked to    = command.getAttackTo();
 
-        for(int i = 0; i < clientList.size(); i++){
-            clientList.get(i).outputEnqueue(command.encode());
-        }            
+        to.attacked(from.attacking());
 
+        database.broadcastHeroHP(to.toString());
     }
+
 
     private void execMove(Move command, Client client){
         Movable object = command.getObject();
@@ -126,13 +116,31 @@ class CommandExecutor {
             Move returnInfor = new Move(object,
                                         object.getPositionX(),
                                         object.getPositionY());
-            for(int i = 0; i < clientList.size(); i++){
-                clientList.get(i).outputEnqueue(returnInfor.encode());
-            }            
-         
+            // for(int i = 0; i < clientList.size(); i++){
+            //     clientList.get(i).outputEnqueue(returnInfor.encode());
+            // }
+            database.broadcastHeroPosition(object.toString());
+            
         }
-
     }
 }
 // 
 // CommandExecutor.java ends here
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

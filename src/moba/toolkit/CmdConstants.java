@@ -18,8 +18,8 @@ package moba.toolkit;
 public class CmdConstants {
     // constants
     public static final String VERSION = "1.0";
-    public static final String LOGIN = "LOGIN";
-    public static final String LOGOUT = "LOGOUT";
+    public static final String LOGIN   = "LOGIN";
+    public static final String LOGOUT  = "LOGOUT";
     public static final String MOVE = "MOVE";
     public static final String ATTACK = "ATTACK";
     public static final String SYSTEM = "SYS";
@@ -29,6 +29,11 @@ public class CmdConstants {
     public static final String WELCOME = "WELCOME";
     public static final String GOODBYE = "GOODBYE";
     public static final String CHOOSEHERO = "CHOOSEHERO";
+    public static final String HERO = "HERO";
+    public static final String HP   = "HP";
+    public static final String POSITION = "POSITION";
+    public static final String ATTRIBUTE = "ATTRIBUTE";
+    public static final String ASSET = "ASSET";
 
 }
 

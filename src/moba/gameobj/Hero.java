@@ -72,12 +72,11 @@ public class Hero implements GameObject, Movable, Attacking, Attacked,
          }else{
              // move y finished
          }
-         
      }
 
      @Override
-     public int attacking(int hp) {
-         return hp - attackDamage;
+     public int attacking() {
+         return attackDamage;
      }
 
      @Override
@@ -131,7 +130,6 @@ public class Hero implements GameObject, Movable, Attacking, Attacked,
         }
     }
 
-
     /* this part is a series of set/get method which is used in 
      server database. infact, those methods above should be refactoried 
     using the basic function below. so as the interfaces.*/
@@ -156,7 +154,7 @@ public class Hero implements GameObject, Movable, Attacking, Attacked,
         this.attackDamage = attack;
     }
 
-    public void getAttackDamage(){ 
+    public int getAttackDamage(){ 
         return attackDamage;
     }
 

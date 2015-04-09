@@ -16,7 +16,7 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 193
+//     Update #: 203
 // 
 
 // Code:
@@ -95,8 +95,11 @@ public class CommandDecoder{
         return new Long(command);
     }
     public Hero findHero(String name){
-        GameObjectFactory factory = new GameObjectFactory();
-        return factory.createHero(name);
+        // GameObjectFactory factory = new GameObjectFactory();
+        // return factory.createHero(name);
+        DataBase database = DataBase.get();
+
+        return database.findHero(name);
     }
 }
 //

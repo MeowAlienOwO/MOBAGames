@@ -46,8 +46,8 @@ public abstract class Minion implements GameObject, Movable, Alive, Attacking,
 	}
 
 	@Override
-	public int attacking(int hp) {
-		return hp - attackDamage;
+	public int attacking() {
+		return attackDamage;
 	}
 
 	@Override
