@@ -16,7 +16,7 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 216
+//     Update #: 217
 // 
 
 // Code:
@@ -62,14 +62,8 @@ public class Judge implements Runnable{
     public void run(){
         System.out.println("Judge start");
         while(!exit){
-
-
             executeCommand();
-            
-
             updateWorld();
-
-            
         }
 
     }

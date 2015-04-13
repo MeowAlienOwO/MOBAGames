@@ -16,12 +16,49 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 2
+//     Update #: 21
 // 
 
 // Code:
 
-// TODO
+package moba.toolkit;
+
+import moba.gameobj.*;
+import moba.gameobj.features.*;
+
+/**
+ * Command: ChooseHero
+ * 
+ * @author Zhang Huayan
+ * @version 1.0 Defines the ChooseHero command.
+ * 
+ */
+
+public class ChooseHero extends SystemCommand {
+
+    String heroname;
+
+    public ChooseHero(String heroname){
+        this.heroname = heroname;
+    }
+
+    /**
+     * encode ChooseHero. format: "CHOOSEHERO heroname"
+     */
+	public String getCommandType() {
+		return (super.getCommandType() + CmdConstants.TYPE_SEPARATOR + CmdConstants.CHOOSEHERO);
+	}
+    @Override
+    public String encode() {
+        return (CmdConstants.CHOOSEHERO + CmdConstants.CMD_SEPARATOR + heroname);
+    }
+
+    public String getHeroname(){
+        return heroname;
+    }
+}
+
+
 
 // 
 // ChooseHero.java ends here

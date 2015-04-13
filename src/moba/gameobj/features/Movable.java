@@ -8,4 +8,8 @@ public interface Movable {
     
     public abstract int getPositionY();
 
+    public abstract int getDestinationX();
+
+    public abstract int getDestinationY();
+
 }

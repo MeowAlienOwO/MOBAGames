@@ -16,7 +16,7 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 425
+//     Update #: 427
 // 
 
 // Code:
@@ -54,26 +54,26 @@ public class TestLogic{
     @Test
     @Ignore
     public void test_CommandDecoder() {
-	String[] testStrings = {
-	    "0@LOGIN abc def",
-	    "1@MOVE HeroA 1 0",
-            "2@ATTACK HeroB HeroA",
-	    "3@ATTACK HeroA HeroB",
-	    "2@LOGOUT abc"
-	};
-        String[] backStrings = {
-	    "LOGIN abc def\n",
-	    "MOVE HeroA 1 0\n",
-            "ATTACK HeroB HeroA\n",
-	    "ATTACK HeroA HeroB\n",
-	    "LOGOUT abc\n"
-        };        
-	for(int i = 0; i < testStrings.length; i++){
-	    CommandDecoder decoder = new CommandDecoder();
-	    Command cmd = decoder.decode(testStrings[i]);
-	    assertEquals(cmd.encode(), backStrings[i]);
-            // assertEquals(1, 0);
-	}
+	// String[] testStrings = {
+	//     "0@LOGIN abc def",
+	//     "1@MOVE HeroA 1 0",
+        //     "2@ATTACK HeroB HeroA",
+	//     "3@ATTACK HeroA HeroB",
+	//     "2@LOGOUT abc"
+	// };
+        // String[] backStrings = {
+	//     "LOGIN abc def\n",
+	//     "MOVE HeroA 1 0\n",
+        //     "ATTACK HeroB HeroA\n",
+	//     "ATTACK HeroA HeroB\n",
+	//     "LOGOUT abc\n"
+        // };        
+	// for(int i = 0; i < testStrings.length; i++){
+	//     CommandDecoder decoder = new CommandDecoder();
+	//     Command cmd = decoder.decode(testStrings[i]);
+	//     assertEquals(cmd.encode(), backStrings[i]);
+        //     // assertEquals(1, 0);
+	// }
 
     }
 
@@ -280,55 +280,55 @@ public class TestLogic{
         }
 
         // test for different priority
-        ClientCommand[] data2 = {
-            new ClientCommand(new Move(a, 0, 1), null, 10l),
-            new ClientCommand(new Attack(a, b), null, 10l),
-            new ClientCommand(new Attack(a, b), null, 10l)
-        };                      // id: 2,3,4
-        assertEquals(true, cmds.isEmpty());
-        assertEquals(true, res.isEmpty());
-        assertEquals(2, data2[0].getID());
-        assertEquals(3, data2[1].getID());
-        assertEquals(4, data2[2].getID());
-        for(int i = 0; i < data2.length; i++){
-            cmds.add(data2[i]);
-        }
+        // ClientCommand[] data2 = {
+        //     new ClientCommand(new Move(a, 0, 1,), null, 10l),
+        //     new ClientCommand(new Attack(a, b), null, 10l),
+        //     new ClientCommand(new Attack(a, b), null, 10l)
+        // };                      // id: 2,3,4
+        // assertEquals(true, cmds.isEmpty());
+        // assertEquals(true, res.isEmpty());
+        // assertEquals(2, data2[0].getID());
+        // assertEquals(3, data2[1].getID());
+        // assertEquals(4, data2[2].getID());
+        // for(int i = 0; i < data2.length; i++){
+        //     cmds.add(data2[i]);
+        // }
 
-        assertEquals(false, cmds.isEmpty());
-        assertEquals(true, res.isEmpty());
-        res = judge.createPriorityQueue(cmds);
+        // assertEquals(false, cmds.isEmpty());
+        // assertEquals(true, res.isEmpty());
+        // res = judge.createPriorityQueue(cmds);
 
-        assertEquals(true, cmds.isEmpty());
-        assertEquals(3, res.poll().getID());
-        assertEquals(4, res.poll().getID());
-        assertEquals(2, res.poll().getID());
-        assertEquals(true, res.isEmpty());
+        // assertEquals(true, cmds.isEmpty());
+        // assertEquals(3, res.poll().getID());
+        // assertEquals(4, res.poll().getID());
+        // assertEquals(2, res.poll().getID());
+        // assertEquals(true, res.isEmpty());
 
 
-        // test for system commands
-        ClientCommand[] data3 = {
-            new ClientCommand(new Move(a, 0, 1), null, 10l),
-            new ClientCommand(new Attack(a, b), null, 10l),
-            new ClientCommand(new Login("hello", "world"), null, 10l)
-        };                      // id: 5,6,7
-        assertEquals(true, cmds.isEmpty());
-        assertEquals(true, res.isEmpty());
-        assertEquals(5, data3[0].getID());
-        assertEquals(6, data3[1].getID());
-        assertEquals(7, data3[2].getID());
-        for(int i = 0; i < data3.length; i++){
-            cmds.add(data3[i]);
-        }
+        // // test for system commands
+        // ClientCommand[] data3 = {
+        //     new ClientCommand(new Move(a, 0, 1), null, 10l),
+        //     new ClientCommand(new Attack(a, b), null, 10l),
+        //     new ClientCommand(new Login("hello", "world"), null, 10l)
+        // };                      // id: 5,6,7
+        // assertEquals(true, cmds.isEmpty());
+        // assertEquals(true, res.isEmpty());
+        // assertEquals(5, data3[0].getID());
+        // assertEquals(6, data3[1].getID());
+        // assertEquals(7, data3[2].getID());
+        // for(int i = 0; i < data3.length; i++){
+        //     cmds.add(data3[i]);
+        // }
 
-        assertEquals(false, cmds.isEmpty());
-        assertEquals(true, res.isEmpty());
-        res = judge.createPriorityQueue(cmds);
+        // assertEquals(false, cmds.isEmpty());
+        // assertEquals(true, res.isEmpty());
+        // res = judge.createPriorityQueue(cmds);
 
-        assertEquals(true, cmds.isEmpty());
-        assertEquals(7, res.poll().getID());
-        assertEquals(6, res.poll().getID());
-        assertEquals(5, res.poll().getID());
-        assertEquals(true, res.isEmpty());
+        // assertEquals(true, cmds.isEmpty());
+        // assertEquals(7, res.poll().getID());
+        // assertEquals(6, res.poll().getID());
+        // assertEquals(5, res.poll().getID());
+        // assertEquals(true, res.isEmpty());
         
         
     }

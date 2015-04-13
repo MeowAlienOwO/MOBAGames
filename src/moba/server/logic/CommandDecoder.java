@@ -16,7 +16,7 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 203
+//     Update #: 260
 // 
 
 // Code:
@@ -45,12 +45,19 @@ public class CommandDecoder{
     // constructor
 
     // method
-    public ClientCommand createClientCommand(String cmd) {
+    public ClientCommand createClientCommand(String cmd) throws Exception{
 
         String[] splited = cmd.split(Communicator.INFOR_SEPARATOR);
         Long time = getTime(splited[0]);
         Client client = findClient(splited[1]);
-        Command command = decode(splited[2]);
+        Command command;
+        try {
+            command = decode(splited[2]);            
+        }
+        catch (Throwable e) {
+            throw e;
+        }        
+        
         return new ClientCommand(command, client, time);
     }
 
@@ -60,7 +67,7 @@ public class CommandDecoder{
         return Communicator.get().findClient(id);
     }
 
-    public Command decode(String cmd){
+    public Command decode(String cmd) throws Exception{
         String[] splited = cmd.split(" ");
         Command command = null;
         if (splited[0].equals(CmdConstants.LOGIN) 
@@ -69,38 +76,52 @@ public class CommandDecoder{
             String passwd = splited[2];
             command = new Login(username, passwd);
         } else if (splited[0].equals(CmdConstants.LOGOUT) 
-                   && splited.length == 2) {
-            String username = splited[1];
-            
-            command = new Logout(username);
+                   && splited.length == 1) {
+
+            command = new Logout();
         } else if (splited[0].equals(CmdConstants.ATTACK)
                    && splited.length == 3) {
-            Attacking from = findHero(splited[1]);
-            Attacked to =  findHero(splited[2]);
+            Attacking from = DataBase.get().findHero(splited[1]);
+            Attacked to =  DataBase.get().findHero(splited[2]);
             command = new Attack(from, to);
-        } else if (splited[0].equals("MOVE")
+        } else if (splited[0].equals(CmdConstants.MOVE)
                    && splited.length == 4) {
             Movable obj;
-            int x, y;
-            obj = findHero(splited[1]);
+            int x, y, dest_x, dest_y;
+            obj = DataBase.get().findHero(splited[1]);
             x = Integer.parseInt(splited[2]);
             y = Integer.parseInt(splited[3]);
+            
             command = new Move(obj, x, y);
+        } else if (splited[0].equals(CmdConstants.CHOOSEHERO)
+                   && splited.length == 2){
+            command = new ChooseHero(splited[1]);
+        }else{
+            throw new Exception("Not Leagal Command");
         }
-        return command;
 
+        return command;
+        
     }
     public Long getTime(String command){
 
         return new Long(command);
     }
-    public Hero findHero(String name){
-        // GameObjectFactory factory = new GameObjectFactory();
-        // return factory.createHero(name);
-        DataBase database = DataBase.get();
+    // public Hero findHero(String name){
+    //     // GameObjectFactory factory = new GameObjectFactory();
+    //     // return factory.createHero(name);
+    //     DataBase database = DataBase.get();
+    //     Hero hero;
+    //     try {
+    //         hero = database.findHero(name);
+    //     }
+    //     catch (Throwable e) {
 
-        return database.findHero(name);
-    }
+    //         throw e;
+    //     }
+
+    //     return hero;
+    // }
 }
 //
 // CommandDecoder.java ends here

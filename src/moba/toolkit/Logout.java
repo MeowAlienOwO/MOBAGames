@@ -16,11 +16,11 @@ package moba.toolkit;
 
 public class Logout extends SystemCommand {
     // variables
-    private String username;
+    // private String username;
     // constructors
-    public Logout(String username){
-        this.username = username;
-    }
+    // public Logout(String username){
+    //     this.username = username;
+    // }
     // methods
     @Override
     public String getCommandType() {
@@ -29,12 +29,12 @@ public class Logout extends SystemCommand {
 
     @Override
     public String encode() {
-        return CmdConstants.LOGOUT + CmdConstants.CMD_SEPARATOR + username;
+        return CmdConstants.LOGOUT; // + CmdConstants.CMD_SEPARATOR + username;
     }
 
-    public String getUsername(){
-        return username;
-    }
+    // public String getUsername(){
+    //     return username;
+    // }
 }
 
 //

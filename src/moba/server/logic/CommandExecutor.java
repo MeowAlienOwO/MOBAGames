@@ -16,7 +16,7 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 250
+//     Update #: 306
 // 
 
 // Code:
@@ -53,19 +53,24 @@ class CommandExecutor{
 
     // methods
     public void execute(ClientCommand clientCommand){
+        if(clientCommand == null){
+            return;
+        }
         Command command = clientCommand.getCommand();
         Client client = clientCommand.getClient();
-        if(command == null)
-            return;
-	// String[] type = command.getCommandType().split("\\" + CmdConstants.TYPE_SEPARATOR);
+
+
 	String[] type = command.getCommandType().split("\\.");	
+
 	if(type[0].equals(CmdConstants.SYSTEM)){
 	    // execute system 
 	    if(type[1].equals(CmdConstants.LOGIN)){
 		execLogin((Login)command, client);
 	    } else if(type[1].equals(CmdConstants.LOGOUT)){
 		execLogout((Logout)command, client);
-	    }
+	    }else if(type[1].equals(CmdConstants.CHOOSEHERO)){
+                execChooseHero((ChooseHero)command, client);
+            }
 	}else if (type[0].equals(CmdConstants.GAME)){
 	    // execute Game commands
 	    if(type[1].equals(CmdConstants.ATTACK)){
@@ -81,18 +86,29 @@ class CommandExecutor{
     private void execLogin(Login command, Client client){
         // TODO: detect login fail: need to change methods
         // in database.user to throw exception
+        if(client.hasUser()){
+            // no need to login twice
+            return;
+        }
+
         User user = new User(command.getUsername(), command.getPassword(), client);
         database.userRegister(user);
-        database.addEvent(CmdConstants.WELCOME + CmdConstants.CMD_SEPARATOR + user.getUsername());
+        client.setUser(user);
         client.outputEnqueue("OK");
+        database.addEvent(CmdConstants.WELCOME + CmdConstants.CMD_SEPARATOR + user.getUsername());
+        database.broadcastAll();
+
     }
     
     private void execLogout(Logout command, Client client){
-        User user = database.findUser(command.getUsername());
+        // User user = database.findUser(command.getUsername());
+        if(!client.hasUser()){
+            return;
+        }
+        User user = client.getUser();
         database.userUnregister(user);
         database.addEvent(CmdConstants.GOODBYE + CmdConstants.CMD_SEPARATOR + user.getUsername());
         client.outputEnqueue("Bye");
-        
     }
 
     private void execAttack(Attack command, Client client){
@@ -104,23 +120,33 @@ class CommandExecutor{
         database.broadcastHeroHP(to.toString());
     }
 
-
+    
     private void execMove(Move command, Client client){
         Movable object = command.getObject();
         int destination_x = command.getPositionX();
         int destination_y = command.getPositionY();
         client.outputEnqueue("OK");
+        System.out.println("object == null: " + (object == null));
         while(object.getPositionX() != destination_x ||
               object.getPositionY() != destination_y){
             object.move(destination_x, destination_y);
-            Move returnInfor = new Move(object,
-                                        object.getPositionX(),
-                                        object.getPositionY());
+            // Move returnInfor = new Move(object,
+            //                             object.getPositionX(),
+            //                             object.getPositionY());
             // for(int i = 0; i < clientList.size(); i++){
             //     clientList.get(i).outputEnqueue(returnInfor.encode());
             // }
             database.broadcastHeroPosition(object.toString());
             
+        }
+    }
+
+    private void execChooseHero(ChooseHero command, Client client){
+        if(client.hasUser()){
+            User user = client.getUser();
+            database.chooseHero(user.getUsername(), command.getHeroname());
+        
+            client.outputEnqueue("OK");
         }
     }
 }

@@ -16,7 +16,7 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 63
+//     Update #: 79
 // 
 
 // Code:
@@ -49,6 +49,7 @@ public class ChangeMonitor implements Runnable{
     @Override
     public void run(){
         while(!exit){
+
             broadcast();
         }
     }
@@ -60,9 +61,11 @@ public class ChangeMonitor implements Runnable{
     }
 
     public void broadcast(){
+
         synchronized(eventList){
             if(!eventList.isEmpty()){
-                Communicator.get().sendToAll(eventList.poll());
+                String temp = eventList.poll();
+                Communicator.get().sendToAll(temp);
             }
         }
     }

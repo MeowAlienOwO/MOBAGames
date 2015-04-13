@@ -9,6 +9,8 @@ public class Hero implements GameObject, Movable, Attacking, Attacked,
     private String heroName;
     private int positionX;
     private int positionY;
+    private int destinationX;
+    private int destinationY;
     private int healthPoint;
     private int healthPointMax;
     private int attackDamage;
@@ -29,6 +31,8 @@ public class Hero implements GameObject, Movable, Attacking, Attacked,
          this.heroName = name;
          this.positionX = x;
          this.positionY = y;
+         this.destinationX = x;
+         this.destinationY = y;
          this.healthPoint = hp;
          this.healthPointMax = hpmax;
          this.attackDamage = damage;
@@ -56,6 +60,10 @@ public class Hero implements GameObject, Movable, Attacking, Attacked,
 
      @Override
      public void move(int x, int y) {
+         // set for destination
+         this.destinationX = x;
+         this.destinationY = y;
+
          // Algorithm for moving
          if(positionX < x){
              positionX++;
@@ -162,7 +170,7 @@ public class Hero implements GameObject, Movable, Attacking, Attacked,
         this.gold = gold;
     }
 
-    public int getGold(int gold){
+    public int getGold(){
         return gold;
     }
 
@@ -177,6 +185,12 @@ public class Hero implements GameObject, Movable, Attacking, Attacked,
     public void setTeam(TeamEnum team){
         this.team = team;
     }
+    
+    public int getDestinationX(){
+        return destinationX;
+    }
 
-
+    public int getDestinationY(){
+        return destinationY;
+    }
 }

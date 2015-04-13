@@ -21,6 +21,8 @@ public class Move extends GameCommand {
     // variable
     private int positionX;
     private int positionY;
+    // private int destinationX;
+    // private int destinationY;
     private Movable object;
 
     // constructor
@@ -28,6 +30,8 @@ public class Move extends GameCommand {
         this.object = obj;
         this.positionX = x;
         this.positionY = y;
+        // this.destinationX = dest_x;
+        // this.destinationY = dest_y;
     }
 
     // method
@@ -56,6 +60,15 @@ public class Move extends GameCommand {
     public int getPositionY() {
         return positionY;
     }
+
+    // public int getDestinationX() {
+    //     return destinationX;
+    // }
+
+    // public int getDestinationY() {
+    //     return destinationY;
+    // }
+
 
 }
 

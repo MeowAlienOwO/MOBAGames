@@ -17,41 +17,41 @@ import moba.server.database.*;
 
 public class Main {
 
-	public static void main(String[] args) {
-		Communicator communicator = Communicator.get();
-		communicator.startListening();
+    public static void main(String[] args) {
+        Communicator communicator = Communicator.get();
+        communicator.startListening();
 
 
-                try {
-                    Thread.sleep(1000);
-                }
-                catch (Throwable e) {
-                    System.out.println("Error " + e.getMessage());
-                    e.printStackTrace();
-                }		
+        try {
+            Thread.sleep(1000);
+        }
+        catch (Throwable e) {
+            System.out.println("Error " + e.getMessage());
+            e.printStackTrace();
+        }		
 
-		// Thread test = new Thread(new SimpleLogic());
-		// test.start();
-                // Database database = DataBase.get();
+        // Thread test = new Thread(new SimpleLogic());
+        // test.start();
+        DataBase database = DataBase.get();
                 
                 
 
-                Logic logic = new Logic(communicator.getClients());
-                logic.work();
+        Logic logic = new Logic(communicator.getClients());
+        logic.work();
 
                 
 
-                // try {
-                //     Thread.sleep(1000000);
-                // }
-                // catch (Throwable e) {
-                //     System.out.println("Error " + e.getMessage());
-                //     e.printStackTrace();
-                // }
+        // try {
+        //     Thread.sleep(1000000);
+        // }
+        // catch (Throwable e) {
+        //     System.out.println("Error " + e.getMessage());
+        //     e.printStackTrace();
+        // }
 
        
-                // logic.close();
-	}
+        // logic.close();
+    }
 
 }
 

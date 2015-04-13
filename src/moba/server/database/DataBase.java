@@ -16,7 +16,7 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 317
+//     Update #: 376
 // 
 
 // Code:
@@ -94,7 +94,7 @@ public class DataBase{
         if(userList.size() <= 10){
             userList.add(user);
         }
-        monitor.addEvent(CmdConstants.WELCOME + CmdConstants.CMD_SEPARATOR + user.getUsername());
+        // monitor.addEvent(CmdConstants.WELCOME + CmdConstants.CMD_SEPARATOR + user.getUsername());
 
     }
 
@@ -102,25 +102,41 @@ public class DataBase{
         if(userList.contains(user)){
             userList.remove(user);
         }
-        monitor.addEvent(CmdConstants.GOODBYE + CmdConstants.CMD_SEPARATOR + user.getUsername());
+        // monitor.addEvent(CmdConstants.GOODBYE + CmdConstants.CMD_SEPARATOR + user.getUsername());
 
     }
 
-    public GameObject findObject(String name){
+    public GameObject findObject(String name) throws Exception{
         String[] splited = name.split(" ");
         GameObject object = null;
-        if(splited.length > 1){
-            // minon, item..etc.
-        }else if(splited.length == 1){
-            // hero
-            object = findHero(name);
+        try{
+            if(splited.length > 1){
+                // minon, item..etc.
+            }else if(splited.length == 1){
+                // hero
+            
+                object = findHero(name);
+            }
+        }catch(Exception e){
+            throw e;
         }
-
         return object;
 
     }
     
-    public Hero findHero(String name){
+    public Hero findHero(String name) throws Exception{
+        synchronized(heroMap){
+            if(!heroMap.containsKey(name)){
+                Hero hero = factory.createHero(name);
+                if(hero == null){
+                    throw new Exception("Invalid Hero");
+                }else{
+                    heroMap.put(name, hero);
+                    return hero;
+                }
+            
+            }
+        }
         return heroMap.get(name);
     }
     
@@ -129,65 +145,91 @@ public class DataBase{
         Hero hero = factory.createHero(heroname);
         if(!user.hasChosenHero()){
             user.setHero(hero);
+            monitor.addEvent(CmdConstants.CHOOSEHERO + CmdConstants.CMD_SEPARATOR + username 
+                             + CmdConstants.CMD_SEPARATOR + heroname);
+
         }
 
-        monitor.addEvent(CmdConstants.CHOOSEHERO + CmdConstants.CMD_SEPARATOR + username 
-                         + CmdConstants.CMD_SEPARATOR + heroname);
     }
 
     public List<Minion> getMinions(){
         return minionList;
     }
     
-    public void initializeInformation(){
+    public void broadcastAll(){
+        synchronized(heroMap){
+            Set<String> keyset = heroMap.keySet();
 
-        // Hero Information
-        Set<String> keyset = heroMap.keySet();
-
-        for(String temp : keyset){
-            broadcastHeroAll(temp);
+            for(String temp : keyset){
+                broadcastHeroAll(temp);
+            }
         }
     }
 
     public void broadcastHeroAll(String name){
         broadcastHeroHP(name);
         broadcastHeroPosition(name);
+        broadcastHeroAttribute(name);
         broadcastHeroAsset(name);
-        broadcastHeroAsset(name);
+
     }
     
+    /**
+     * format: HERO HP curr_hp max_hp
+     */
     public void broadcastHeroHP(String name){
-        Hero hero = findHero(name);
-
-        monitor.addEvent(CmdConstants.HERO + CmdConstants.CMD_SEPARATOR + 
-                         CmdConstants.HP + CmdConstants.CMD_SEPARATOR +
-                         hero.getHealth() + CmdConstants.CMD_SEPARATOR +
-                         hero.getHealthMax());        
+        try{
+            Hero hero = findHero(name);
+        
+            monitor.addEvent(CmdConstants.HERO + CmdConstants.CMD_SEPARATOR + 
+                             CmdConstants.HP + CmdConstants.CMD_SEPARATOR +
+                             name + CmdConstants.CMD_SEPARATOR +
+                             hero.getHealth() + CmdConstants.CMD_SEPARATOR +
+                             hero.getHealthMax());        
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     public void broadcastHeroPosition(String name){
-        Hero hero = findHero(name);
-
-        monitor.addEvent(CmdConstants.HERO + CmdConstants.CMD_SEPARATOR + 
-                         CmdConstants.POSITION + CmdConstants.CMD_SEPARATOR +
-                         hero.getPositionX() + CmdConstants.CMD_SEPARATOR +
-                         hero.getPositionY());                
+        try{
+            Hero hero = findHero(name);
+        
+            monitor.addEvent(CmdConstants.HERO + CmdConstants.CMD_SEPARATOR + 
+                             CmdConstants.POSITION + CmdConstants.CMD_SEPARATOR +
+                             name + CmdConstants.CMD_SEPARATOR +
+                             hero.getPositionX() + CmdConstants.CMD_SEPARATOR +
+                             hero.getPositionY());                
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     }
     
     public void broadcastHeroAttribute(String name){
-        Hero hero = findHero(name);
-
-        monitor.addEvent(CmdConstants.HERO + CmdConstants.CMD_SEPARATOR + 
-                         CmdConstants.ATTRIBUTE + CmdConstants.CMD_SEPARATOR +
-                         hero.getAttackDamage());            }
+        try{
+            Hero hero = findHero(name);
+        
+            monitor.addEvent(CmdConstants.HERO + CmdConstants.CMD_SEPARATOR + 
+                             CmdConstants.ATTRIBUTE + CmdConstants.CMD_SEPARATOR +
+                             name + CmdConstants.CMD_SEPARATOR +
+                             hero.getAttackDamage());           
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
 
     public void broadcastHeroAsset(String name){
-                Hero hero = findHero(name);
-
-        monitor.addEvent(CmdConstants.HERO + CmdConstants.CMD_SEPARATOR + 
-                         CmdConstants.ASSET + CmdConstants.CMD_SEPARATOR +
-                         hero.getPositionX() + CmdConstants.CMD_SEPARATOR +
-                         hero.getPositionY());                
+        try{
+            Hero hero = findHero(name);
+        
+            monitor.addEvent(CmdConstants.HERO + CmdConstants.CMD_SEPARATOR + 
+                             CmdConstants.ASSET + CmdConstants.CMD_SEPARATOR +
+                             name + CmdConstants.CMD_SEPARATOR +
+                             hero.getGold() + CmdConstants.CMD_SEPARATOR +
+                             hero.getExperience());                
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     }
     
     public void addEvent(String message){

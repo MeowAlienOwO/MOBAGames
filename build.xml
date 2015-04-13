@@ -36,7 +36,6 @@
 
     <junit fork="no" printsummary="on" showoutput="on">
       <classpath>
-
   	<pathelement path="${testpath}" />
   	<pathelement location="${classpath}" />
       </classpath>
@@ -45,8 +44,12 @@
     </junit>
   </target>
 
-  <target name="run" depends="test">
-  <!-- <target name="run" depends="test-compile">  -->
+  <target name="jar" depends="test">
+    <jar jarfile="server.jar" />
+  </target>
+  
+  <target name="run" depends="jar">
+    
   </target>
 
 </project>

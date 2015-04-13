@@ -16,7 +16,7 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 293
+//     Update #: 303
 // 
 
 // Code:
@@ -77,39 +77,47 @@ public class Preprocessor implements Runnable{
         Long time;
         int id;
         boolean isAllEmpty;
-        do{
-            id = Integer.MIN_VALUE;
-            Long mintime = new Long(Long.MAX_VALUE);
-            // check from all queue, find the one has minimal time and 
-            // keep the id
-            isAllEmpty = true;
-            for(int i = 0; i < clientList.size(); i++){
-                Client client = clientList.get(i);
-                // System.out.println("Client id = " + client.getClientId());
-                isAllEmpty = isAllEmpty && (client.isInputEmpty()); 
-                // System.out.println("isAllEmpty = " + isAllEmpty);
-                if(!client.isInputEmpty()) {
-                    String command = client.inputExamine();
-                    // System.out.println("get command:" + command);
-                    time = decoder.getTime(command.split(Communicator.INFOR_SEPARATOR)[0]); 
-                    if(mintime.compareTo(time) > 0){ // compareTo() returns > 0 if time is less than mintime
-                        mintime = time;
-                        id = client.getClientId();
+        synchronized(commandQueue){
+            synchronized(clientList){
+                do{
+                    id = Integer.MIN_VALUE;
+                    Long mintime = new Long(Long.MAX_VALUE);
+                    // check from all queue, find the one has minimal time and 
+                    // keep the id
+                    isAllEmpty = true;
+                    for(int i = 0; i < clientList.size(); i++){
+                        Client client = clientList.get(i);
+                        // System.out.println("Client id = " + client.getClientId());
+                        isAllEmpty = isAllEmpty && (client.isInputEmpty()); 
+                        // System.out.println("isAllEmpty = " + isAllEmpty);
+                        if(!client.isInputEmpty()) {
+                            String command = client.inputExamine();
+                            // System.out.println("get command:" + command);
+                            time = decoder.getTime(command.split(Communicator.INFOR_SEPARATOR)[0]); 
+                            if(mintime.compareTo(time) > 0){ // compareTo() returns > 0 if time is less than mintime
+                                mintime = time;
+                                id = client.getClientId();
+                            }
+                        }
+                    } // endfor
+
+                    // get the minimal one, create new ClientCommand and put into command list
+                    if(id >= 0){
+                        String strIntoQueue = Communicator.get().findClient(id).inputDequeue();
+
+                        try{
+                            ClientCommand temp = decoder.createClientCommand(strIntoQueue);
+                        commandQueue.offer(temp);
+                        }catch(Exception e){
+                            System.out.println(e.getMessage());
+                            
+                        }
+
                     }
-                }
-            } // endfor
 
-            // get the minimal one, create new ClientCommand and put into command list
-            if(id >= 0){
-                String strIntoQueue = Communicator.get().findClient(id).inputDequeue();
-
-                commandQueue.offer(decoder.createClientCommand(strIntoQueue));
-
+                } while(!isAllEmpty);
             }
-
-        } while(!isAllEmpty);
-
-
+        }
     }
 
     public void close(){

@@ -16,7 +16,7 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 111
+//     Update #: 169
 // 
 
 // Code:
@@ -43,48 +43,123 @@ public class Logic{
     // private volatile Queue<String> stringQueue;
     private volatile Queue<ClientCommand> commandQueue;
     private Preprocessor preprocessor;
-    private CommandDecoder decoder;
+    // private CommandDecoder decoder;
+    private CommandExecutor executor;
     private Judge judge;
     private DataBase database;
     private ChangeMonitor monitor;
+    private boolean exit;
+    
+    // private boolean gamestart;
     // constructor
     public Logic(List<Client> clientList){
 	this.clientList = clientList;
-        // this.stringQueue = new LinkedList<String>();
         this.commandQueue = new LinkedList<ClientCommand>();
         this.preprocessor = new Preprocessor(clientList, commandQueue);
-        // this.decoder = new CommandDecoder(stringQueue, commandQueue);
+        this.executor = new CommandExecutor(clientList, commandQueue);
+
+        this.database = DataBase.get();
+        this.monitor = database.getMonitor();
         this.judge = new Judge(clientList, commandQueue);
+        this.exit = false;
+        // this.gamestart = false;
     }
     // methods
     public void work(){
 	initialize();
-        // preprocessor.sort();
-        
-        // judge.executeCommand();
 
+
+        while(!exit){
+            executeCommand();
+
+            // if(!gamestart) countinue;
+            
+            updateWorld();
+        }
+        
+        
+        // while(!exit){
+        //     checkcommands;
+        //     while(!gamestart){
+        //         sleep(1);
+        //     }
+        //         if(time= 1/60s)
+        //             for all hero : broadcastall()
+
+        // }
+    }
+
+    public void initialize(){
         /* preprocessor: thread for putting strings into string list */
         Thread preprocessorThread = new Thread(preprocessor, "Preprocessor");
         preprocessorThread.start();
+        Thread monitorThread = new Thread(monitor, "Monitor");
+        monitorThread.start();
         /* judge: thread for executing cmd and update world */
-        Thread judgeThread = new Thread(judge, "Judge");
-        judgeThread.start();
-        
-    }
+        // Thread judgeThread = new Thread(judge, "Judge");
+        // judgeThread.start();
 
-    private void initialize(){
-
-
-
-        monitor = DataBase.get().getMonitor();
-        Thread t = new Thread(monitor);
-        t.start();
     }
 
     public void close(){
         preprocessor.close();
         
-        judge.close();
+        this.exit = true;
+    }
+
+    public void updateWorld(){
+        database.broadcastAll();                    
+    }
+
+    /**
+     * execute command
+     * firstly put all commands has same time into priority queue
+     * according to their priority
+     * then execute all the commands which are already inserted into
+     * priority queue.
+     */
+
+    public void executeCommand(){
+        int time;
+        PriorityQueue<ClientCommand> priorityQueue;
+        while(!commandQueue.isEmpty()){
+            // create priority queue
+            priorityQueue = createPriorityQueue(commandQueue);
+            // execute command
+            while(priorityQueue.peek() != null){
+                executor.execute(priorityQueue.poll());
+            }
+        }
+
+    }
+
+    public PriorityQueue<ClientCommand> createPriorityQueue(Queue<ClientCommand> queue){
+        PriorityQueue<ClientCommand> priorityQueue
+            = new PriorityQueue<ClientCommand>(new Comparator<ClientCommand>() {
+                    public int compare(ClientCommand c1, ClientCommand c2){
+                        
+                        if(c1.getPriority() > c2.getPriority()){
+                            return -1;
+                        }else if(c1.getPriority() < c2.getPriority()){
+                            return 1;
+                        }else{
+                            return 0;
+                        }
+                    }
+                });
+            // priorityQueue.clear(); // initialize
+            // create priority queue
+        
+            do{
+                if(commandQueue.peek() == null) continue;
+                priorityQueue.offer(commandQueue.poll());
+            } while(commandQueue.peek() != null 
+                    && isSametime(commandQueue.peek(), priorityQueue.peek()));
+            return priorityQueue;
+    }
+
+    private boolean isSametime(ClientCommand c1, ClientCommand c2){
+        return c1.getTime() == c2.getTime();
     }
     
 
