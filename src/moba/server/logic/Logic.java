@@ -16,7 +16,7 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 99
+//     Update #: 111
 // 
 
 // Code:
@@ -26,6 +26,7 @@ package moba.server.logic;
 
 import java.util.*;
 import moba.server.communicator.*;
+import moba.server.database.*;
 import moba.toolkit.*;
 /**
  * Logic
@@ -44,6 +45,8 @@ public class Logic{
     private Preprocessor preprocessor;
     private CommandDecoder decoder;
     private Judge judge;
+    private DataBase database;
+    private ChangeMonitor monitor;
     // constructor
     public Logic(List<Client> clientList){
 	this.clientList = clientList;
@@ -70,7 +73,12 @@ public class Logic{
     }
 
     private void initialize(){
-	
+
+
+
+        monitor = DataBase.get().getMonitor();
+        Thread t = new Thread(monitor);
+        t.start();
     }
 
     public void close(){

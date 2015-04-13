@@ -16,7 +16,7 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 312
+//     Update #: 317
 // 
 
 // Code:
@@ -44,10 +44,8 @@ public class DataBase{
     
     /* map */
     private Map map;
-
     /* event monitor */
     private ChangeMonitor monitor;
-
     /* factory */
     private GameObjectFactory factory;
 
@@ -191,11 +189,14 @@ public class DataBase{
                          hero.getPositionX() + CmdConstants.CMD_SEPARATOR +
                          hero.getPositionY());                
     }
-
+    
     public void addEvent(String message){
         monitor.addEvent(message);
     }
     
+    public ChangeMonitor getMonitor(){
+        return monitor;
+    }
 }
 
 // 

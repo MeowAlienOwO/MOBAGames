@@ -7,6 +7,7 @@ package moba.server;
 
 import moba.server.communicator.*;
 import moba.server.logic.*;
+import moba.server.database.*;
 /**
  * Main
  * 
@@ -28,20 +29,28 @@ public class Main {
                     System.out.println("Error " + e.getMessage());
                     e.printStackTrace();
                 }		
+
 		// Thread test = new Thread(new SimpleLogic());
 		// test.start();
+                // Database database = DataBase.get();
+                
+                
+
                 Logic logic = new Logic(communicator.getClients());
                 logic.work();
-                try {
-                    Thread.sleep(1000000);
-                }
-                catch (Throwable e) {
-                    System.out.println("Error " + e.getMessage());
-                    e.printStackTrace();
-                }
+
+                
+
+                // try {
+                //     Thread.sleep(1000000);
+                // }
+                // catch (Throwable e) {
+                //     System.out.println("Error " + e.getMessage());
+                //     e.printStackTrace();
+                // }
 
        
-                logic.close();
+                // logic.close();
 	}
 
 }
