@@ -16,7 +16,7 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 303
+//     Update #: 307
 // 
 
 // Code:
@@ -45,7 +45,6 @@ public class Preprocessor implements Runnable{
     private CommandDecoder decoder;
     private Queue<ClientCommand> commandQueue;
 
-
     // constructor 
     public Preprocessor(List<Client> clientList,
                         Queue<ClientCommand> commandQueue){
@@ -59,7 +58,6 @@ public class Preprocessor implements Runnable{
     public void run(){
         System.out.println("Preprocessor starts");
         while(!exit){
-
             checkClients();
             sort();
         }
@@ -87,12 +85,12 @@ public class Preprocessor implements Runnable{
                     isAllEmpty = true;
                     for(int i = 0; i < clientList.size(); i++){
                         Client client = clientList.get(i);
-                        // System.out.println("Client id = " + client.getClientId());
+                     
                         isAllEmpty = isAllEmpty && (client.isInputEmpty()); 
-                        // System.out.println("isAllEmpty = " + isAllEmpty);
+                     
                         if(!client.isInputEmpty()) {
                             String command = client.inputExamine();
-                            // System.out.println("get command:" + command);
+                     
                             time = decoder.getTime(command.split(Communicator.INFOR_SEPARATOR)[0]); 
                             if(mintime.compareTo(time) > 0){ // compareTo() returns > 0 if time is less than mintime
                                 mintime = time;
@@ -170,15 +168,10 @@ public class Preprocessor implements Runnable{
 
     
     public int getTime(String command){
-        // return Integer.parseInt(command.split(Communicator.INFOR_SEPARATOR)[0]);
+    
         return Integer.parseInt(command.split(Communicator.INFOR_SEPARATOR)[0]);
     }
     
-    // public Long getLongTime(String command){
-    //     return new Long(command.split(Communicator.INFOR_SEPARATOR)[0]);
-    // }
-    
-
     public String getCommand(String command){
 
         return command.split(Communicator.INFOR_SEPARATOR)[1];

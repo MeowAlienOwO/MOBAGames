@@ -16,7 +16,7 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 260
+//     Update #: 289
 // 
 
 // Code:
@@ -51,6 +51,8 @@ public class CommandDecoder{
         Long time = getTime(splited[0]);
         Client client = findClient(splited[1]);
         Command command;
+
+        // case command invalid
         try {
             command = decode(splited[2]);            
         }
@@ -70,8 +72,11 @@ public class CommandDecoder{
     public Command decode(String cmd) throws Exception{
         String[] splited = cmd.split(" ");
         Command command = null;
+
+        // deal with different commands
         if (splited[0].equals(CmdConstants.LOGIN) 
             && splited.length == 3) {
+
             String username = splited[1];
             String passwd = splited[2];
             command = new Login(username, passwd);
@@ -81,11 +86,13 @@ public class CommandDecoder{
             command = new Logout();
         } else if (splited[0].equals(CmdConstants.ATTACK)
                    && splited.length == 3) {
+
             Attacking from = DataBase.get().findHero(splited[1]);
             Attacked to =  DataBase.get().findHero(splited[2]);
             command = new Attack(from, to);
         } else if (splited[0].equals(CmdConstants.MOVE)
                    && splited.length == 4) {
+
             Movable obj;
             int x, y, dest_x, dest_y;
             obj = DataBase.get().findHero(splited[1]);
@@ -93,10 +100,21 @@ public class CommandDecoder{
             y = Integer.parseInt(splited[3]);
             
             command = new Move(obj, x, y);
-        } else if (splited[0].equals(CmdConstants.CHOOSEHERO)
-                   && splited.length == 2){
-            command = new ChooseHero(splited[1]);
-        }else{
+        } else if (splited[0].equals(CmdConstants.CHOOSEHERO)){
+            if(splited.length == 2){
+                // compatible to herocode 
+                command = new ChooseHero(splited[1]);
+            }else if(splited.length == 3){
+
+                TeamEnum team = TeamEnum.encodeTeam(splited[2]);
+                
+                command = new ChooseHero(splited[1], team);
+            }
+            
+        }
+
+        if(command == null){
+            // if the input is not valid, throw exception
             throw new Exception("Not Leagal Command");
         }
 
@@ -107,21 +125,6 @@ public class CommandDecoder{
 
         return new Long(command);
     }
-    // public Hero findHero(String name){
-    //     // GameObjectFactory factory = new GameObjectFactory();
-    //     // return factory.createHero(name);
-    //     DataBase database = DataBase.get();
-    //     Hero hero;
-    //     try {
-    //         hero = database.findHero(name);
-    //     }
-    //     catch (Throwable e) {
-
-    //         throw e;
-    //     }
-
-    //     return hero;
-    // }
 }
 //
 // CommandDecoder.java ends here

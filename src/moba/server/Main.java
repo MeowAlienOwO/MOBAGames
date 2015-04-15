@@ -21,36 +21,20 @@ public class Main {
         Communicator communicator = Communicator.get();
         communicator.startListening();
 
-
         try {
             Thread.sleep(1000);
         }
         catch (Throwable e) {
             System.out.println("Error " + e.getMessage());
             e.printStackTrace();
-        }		
-
-        // Thread test = new Thread(new SimpleLogic());
-        // test.start();
+        }
+        // set up database
         DataBase database = DataBase.get();
                 
-                
-
+        // setup logic 
         Logic logic = new Logic(communicator.getClients());
         logic.work();
 
-                
-
-        // try {
-        //     Thread.sleep(1000000);
-        // }
-        // catch (Throwable e) {
-        //     System.out.println("Error " + e.getMessage());
-        //     e.printStackTrace();
-        // }
-
-       
-        // logic.close();
     }
 
 }

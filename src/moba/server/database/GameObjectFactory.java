@@ -16,13 +16,16 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 29
+//     Update #: 77
 // 
+
+// Code:
 
 
 package moba.server.database;
 
 import moba.gameobj.features.*;
+import moba.gameobj.hero.*;
 import moba.gameobj.*;
 /**
  * GameObjectFactory
@@ -35,20 +38,62 @@ public class GameObjectFactory{
 
     // methods
 
-    public Hero createHero(String name){
+    public Hero createHeroByCode(String heroCode){
         Hero hero = null;
-        if(name.equals("HeroA")){
-            hero = new Hero(name, 0, 0, 10, 10, 1, TeamEnum.LAWFUL, 100, 0);
-        }else if(name.equals("HeroB")){
-            hero = new Hero(name, 0, 0, 10, 10, 2, TeamEnum.CHAOTIC, 100, 0);
+
+        if (heroCode.equals("A1")) {
+            hero = new Anthony(TeamEnum.ATTACK);
+        } else if (heroCode.equals("A2")) {
+            hero = new Cynthia(TeamEnum.ATTACK);
+        } else if (heroCode.equals("A3")) {
+            hero = new Jeff(TeamEnum.ATTACK);
+        } else if (heroCode.equals("A4")) {
+            hero = new Otis(TeamEnum.ATTACK);
+        } else if (heroCode.equals("A5")) {
+            hero = new Saga(TeamEnum.ATTACK);
+        } else if (heroCode.equals("D1")) {
+            hero = new Anthony(TeamEnum.DEFENCE);
+        } else if (heroCode.equals("D2")) {
+            hero = new Cynthia(TeamEnum.DEFENCE);
+        } else if (heroCode.equals("D3")) {
+            hero = new Jeff(TeamEnum.DEFENCE);
+        } else if (heroCode.equals("D4")) {
+            hero = new Otis(TeamEnum.DEFENCE);
+        } else if (heroCode.equals("D5")) {
+            hero = new Saga(TeamEnum.DEFENCE);
         }
-        
         return hero;
     }
 
+
+    public Hero createHero(String heroName, TeamEnum team){
+        Hero hero = null;
+        
+        if (heroName.equals("Anthony")) {
+            hero = new Anthony(team);
+        } else if (heroName.equals("Cynthia")) {
+            hero = new Cynthia(team);
+        } else if (heroName.equals("Jeff")) {
+            hero = new Jeff(team);
+        } else if (heroName.equals("Otis")) {
+            hero = new Otis(team);
+        } else if (heroName.equals("Saga")) {
+            hero = new Saga(team);
+        } 
+
+        return hero;
+    }
+    public boolean isHeroValid(String name){
+        return(name.equals("Anthony")||
+               name.equals("Cynthia")||
+               name.equals("Jeff")||
+               name.equals("Otis")||
+               name.equals("Saga"));
+
+    }
 }
 
-// Code:
+
 
 
 

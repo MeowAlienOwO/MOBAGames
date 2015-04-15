@@ -45,7 +45,12 @@
   </target>
 
   <target name="jar" depends="test">
-    <jar jarfile="server.jar" />
+    <jar jarfile="server.jar" basedir="${bin}">
+      <manifest>
+        <attribute name="Main-class" value="moba.server.Main" />
+        <attribute name="Class-Path" value="${classpath}"/>
+      </manifest>
+    </jar>
   </target>
   
   <target name="run" depends="jar">

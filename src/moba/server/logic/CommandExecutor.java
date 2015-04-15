@@ -16,7 +16,7 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 306
+//     Update #: 419
 // 
 
 // Code:
@@ -52,6 +52,13 @@ class CommandExecutor{
     }
 
     // methods
+
+    /**
+     * method execute
+     * this method is the core of CommandExecutor. basically, it test the
+     * type of a certain command and execute certain function.
+     * 
+     */
     public void execute(ClientCommand clientCommand){
         if(clientCommand == null){
             return;
@@ -88,66 +95,127 @@ class CommandExecutor{
         // in database.user to throw exception
         if(client.hasUser()){
             // no need to login twice
+            client.outputEnqueue("ERROR login twice");
             return;
         }
-
+        
+        // create new user
         User user = new User(command.getUsername(), command.getPassword(), client);
+        // register user to database and client
         database.userRegister(user);
         client.setUser(user);
-        client.outputEnqueue("OK");
-        database.addEvent(CmdConstants.WELCOME + CmdConstants.CMD_SEPARATOR + user.getUsername());
-        database.broadcastAll();
 
+        // print ok message
+        System.out.println("User " + command.getUsername() +"registed.");
+        client.outputEnqueue("OK");
+
+
+        
+        Communicator.get().sendToAll(CmdConstants.WELCOME + CmdConstants.CMD_SEPARATOR + user.getUsername());
+        // database.addEvent(CmdConstants.WELCOME + CmdConstants.CMD_SEPARATOR + user.getUsername());
+
+        // information for initialization 
+        database.broadcastAll();
     }
+
     
     private void execLogout(Logout command, Client client){
-        // User user = database.findUser(command.getUsername());
+
         if(!client.hasUser()){
+            // no user login in here
+            client.outputEnqueue("ERROR not logged in");
             return;
         }
+        // unregister user from database and client
         User user = client.getUser();
         database.userUnregister(user);
-        database.addEvent(CmdConstants.GOODBYE + CmdConstants.CMD_SEPARATOR + user.getUsername());
+        client.setUser(null);
+        
+        // database.addEvent(CmdConstants.GOODBYE + CmdConstants.CMD_SEPARATOR + user.getUsername());
+        Communicator.get().sendToAll(CmdConstants.WELCOME + CmdConstants.CMD_SEPARATOR + user.getUsername());
         client.outputEnqueue("Bye");
+
+        // unregister client
+        Communicator.get().unregister(client);
     }
 
     private void execAttack(Attack command, Client client){
+        if(!client.hasUser()){
+            // no user login in here
+            client.outputEnqueue("ERROR not logged in");
+            return;
+        }
+
+        // find objects
         Attacking from = command.getAttackFrom();
         Attacked to    = command.getAttackTo();
 
+        if(from == null){
+            client.outputEnqueue("ERROR Attack From Not Found ");
+            return;
+        }else if(to == null){
+            client.outputEnqueue("ERROR Attack To Not Found");
+            return;
+        }
+
+        // perform attack 
         to.attacked(from.attacking());
 
+        client.outputEnqueue("OK ATTACK");
+
+        // send information back
         database.broadcastHeroHP(to.toString());
     }
 
     
     private void execMove(Move command, Client client){
+
+        if(!client.hasUser()){
+            // no user login in here
+            client.outputEnqueue("ERROR not logged in");
+            return;
+        }
+        
+        // find objects
         Movable object = command.getObject();
         int destination_x = command.getPositionX();
         int destination_y = command.getPositionY();
-        client.outputEnqueue("OK");
-        System.out.println("object == null: " + (object == null));
+        client.outputEnqueue("OK MOVE");
+
+        
+        // execute move
         while(object.getPositionX() != destination_x ||
               object.getPositionY() != destination_y){
             object.move(destination_x, destination_y);
-            // Move returnInfor = new Move(object,
-            //                             object.getPositionX(),
-            //                             object.getPositionY());
-            // for(int i = 0; i < clientList.size(); i++){
-            //     clientList.get(i).outputEnqueue(returnInfor.encode());
-            // }
-            database.broadcastHeroPosition(object.toString());
-            
+
         }
+        // broadcast information
+        database.broadcastHeroPosition(object.toString());
+            
+        
     }
 
     private void execChooseHero(ChooseHero command, Client client){
-        if(client.hasUser()){
-            User user = client.getUser();
-            database.chooseHero(user.getUsername(), command.getHeroname());
-        
-            client.outputEnqueue("OK");
+
+        if(!client.hasUser()){
+            // no user login in here
+            client.outputEnqueue("ERROR not logged in");
+            return;
         }
+
+
+        // find user
+        User user = client.getUser();
+        if(command.getTeam() == null){
+            // case using herocode
+            database.chooseHeroByCode(user.getUsername(), command.getHeroname());
+        }else{
+            database.chooseHero(user.getUsername(), command.getHeroname(), command.getTeam());
+        }
+
+        // TODO: maybe need to send user information.
+        database.broadcastHeroAll(command.getHeroname());
+        client.outputEnqueue("OK");
     }
 }
 // 

@@ -16,7 +16,7 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 427
+//     Update #: 428
 // 
 
 // Code:
@@ -238,46 +238,46 @@ public class TestLogic{
 
     @Test
     public void test_Priority_Queue() {
-        Queue<ClientCommand> cmds = new LinkedList<ClientCommand>();
-        GameObjectFactory factory = new GameObjectFactory();
-        Hero a = factory.createHero("HeroA");
-        Hero b = factory.createHero("HeroB");
-        Judge judge = new Judge(null, cmds);
-        PriorityQueue<ClientCommand> res;
+        // Queue<ClientCommand> cmds = new LinkedList<ClientCommand>();
+        // GameObjectFactory factory = new GameObjectFactory();
+        // Hero a = factory.createHero("HeroA");
+        // Hero b = factory.createHero("HeroB");
+        // Judge judge = new Judge(null, cmds);
+        // PriorityQueue<ClientCommand> res;
 
 
         
-        // test for same priority
-        ClientCommand[] data1 = {
-            new ClientCommand(new Attack(a, b), null, 10l),
-            new ClientCommand(new Attack(a, b), null, 10l)
-        };                      // id: 0, 1
-        for(int i = 0; i < data1.length; i++){
-            cmds.add(data1[i]);
-        }
+        // // test for same priority
+        // ClientCommand[] data1 = {
+        //     new ClientCommand(new Attack(a, b), null, 10l),
+        //     new ClientCommand(new Attack(a, b), null, 10l)
+        // };                      // id: 0, 1
+        // for(int i = 0; i < data1.length; i++){
+        //     cmds.add(data1[i]);
+        // }
 
 
-        assertEquals(false, cmds.isEmpty());
+        // assertEquals(false, cmds.isEmpty());
 
-        res = judge.createPriorityQueue(cmds);
+        // res = judge.createPriorityQueue(cmds);
 
-        assertEquals(true, cmds.isEmpty());
-        assertEquals(0, res.poll().getID());
-        assertEquals(1, res.poll().getID());
-        assertEquals(true, res.isEmpty());
+        // assertEquals(true, cmds.isEmpty());
+        // assertEquals(0, res.poll().getID());
+        // assertEquals(1, res.poll().getID());
+        // assertEquals(true, res.isEmpty());
 
-        // since there will be an while loop for
-        // checking whether the input queue is empty,
-        // we needn't check this case. however, if
-        // put an empty queue into the method somewhere,
-        // it will return NullPointerException.
-        try {
-            res = judge.createPriorityQueue(cmds);
-            fail("Expected a NullPointerException is been thrown");
-        }catch (NullPointerException npe) {
-            // assertThat(npe.getMessage(), is("null"));
+        // // since there will be an while loop for
+        // // checking whether the input queue is empty,
+        // // we needn't check this case. however, if
+        // // put an empty queue into the method somewhere,
+        // // it will return NullPointerException.
+        // try {
+        //     res = judge.createPriorityQueue(cmds);
+        //     fail("Expected a NullPointerException is been thrown");
+        // }catch (NullPointerException npe) {
+        //     // assertThat(npe.getMessage(), is("null"));
 
-        }
+        // }
 
         // test for different priority
         // ClientCommand[] data2 = {

@@ -1,7 +1,7 @@
 package moba.gameobj;
 
 import moba.gameobj.features.*;
-
+import java.util.*;
 public class Hero implements GameObject, Movable, Attacking, Attacked,
                                       Alive, Team, Gold, Experience {
 
@@ -17,6 +17,7 @@ public class Hero implements GameObject, Movable, Attacking, Attacked,
     private TeamEnum team;
     private int gold;
     private int experience;
+    private int speed;
 
     // constructor
     public Hero(String name, 
@@ -27,7 +28,8 @@ public class Hero implements GameObject, Movable, Attacking, Attacked,
                 int damage, 
                 TeamEnum team,
                 int gold, 
-                int exp) {
+                int exp,
+                int speed) {
          this.heroName = name;
          this.positionX = x;
          this.positionY = y;
@@ -39,6 +41,7 @@ public class Hero implements GameObject, Movable, Attacking, Attacked,
          this.team = team;
          this.gold = gold;
          this.experience = exp;
+         this.speed = speed;
      }
 
      // methods
@@ -65,20 +68,66 @@ public class Hero implements GameObject, Movable, Attacking, Attacked,
          this.destinationY = y;
 
          // Algorithm for moving
-         if(positionX < x){
-             positionX++;
-         }else if(positionX > x){
-             positionX--;
-         }else{
-             // move x finished
+         // setDestPositionX(e.getX() + screenX);
+         // setDestPositionY(e.getY() + screenY);
+
+         int dx = Math.abs(destinationX - positionX);
+         int dy = Math.abs(destinationY - positionY);
+         int s1, s2;
+         int interchange;
+         int p;
+         LinkedList list = new LinkedList();
+         list.add(positionX);
+         list.add(positionY);
+         if (destinationX - positionX >= 0) {
+             s1 = 1;
+         }
+         else {
+             s1 = -1;
          }
 
-         if(positionY < y){
-             positionY++;
-         }else if(positionY > y){
-             positionY--;
-         }else{
-             // move y finished
+
+         if (destinationY - positionY >= 0) {
+             s2 = 1;
+         }
+         else {
+             s2 = -1;
+         }
+
+		
+         if (dy > dx) {
+             int temp = dx;
+             dx = dy;
+             dy = temp;
+             interchange = 1;
+         }
+         else {
+             interchange = 0;
+         }
+		
+         p = 2 * dy - dx;
+
+         for (int i = 1;i < dx;i++) {
+             if (p >= 0) {
+                 if (interchange == 0) {
+                     setPositionY(positionY + s2);
+                 }
+                 else {
+                     setPositionX(positionX + s1);
+                 }
+                 p -= 2 * dx;
+             }
+             else {
+                 if (interchange == 0) {
+                     setPositionX(positionX + s1);
+                 }
+                 else {
+                     setPositionY(positionY + s2);
+                 }
+                 p += 2 * dy;
+             }
+             list.add(positionX);
+             list.add(positionY);
          }
      }
 
@@ -142,6 +191,10 @@ public class Hero implements GameObject, Movable, Attacking, Attacked,
      server database. infact, those methods above should be refactoried 
     using the basic function below. so as the interfaces.*/
 
+    public String getHeroname(){
+        return heroName;
+    }
+
     public void setHealth(int hp){
         this.healthPoint = hp;
     }
@@ -185,12 +238,28 @@ public class Hero implements GameObject, Movable, Attacking, Attacked,
     public void setTeam(TeamEnum team){
         this.team = team;
     }
-    
+
+    public void setPositionX(int x){
+        this.positionX = x;
+    }
+
+    public void setPositionY(int y){
+        this.positionY = y;
+    }
+
     public int getDestinationX(){
         return destinationX;
     }
 
     public int getDestinationY(){
         return destinationY;
+    }
+
+    public void setSpeed(int s){
+        this.speed = s;
+    }
+
+    public int getSpeed(){
+        return speed;
     }
 }

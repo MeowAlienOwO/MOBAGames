@@ -16,7 +16,7 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 376
+//     Update #: 408
 // 
 
 // Code:
@@ -57,7 +57,7 @@ public class DataBase{
         this.minionList = new ArrayList<Minion>();
         this.userList = new ArrayList<User>(10);
 
-        this.map = null;
+        this.map = new Map();
         this.monitor = new ChangeMonitor();
         this.factory = new GameObjectFactory();
     }
@@ -72,9 +72,9 @@ public class DataBase{
         return database;
     }
 
-    public void setMap(String path){
-        this.map = new Map(path);
-    }
+    // public void setMap(String path){
+    //     this.map = new Map(path);
+    // }
     
     public boolean isMapSet(){
         return map == null;
@@ -127,29 +127,47 @@ public class DataBase{
     public Hero findHero(String name) throws Exception{
         synchronized(heroMap){
             if(!heroMap.containsKey(name)){
-                Hero hero = factory.createHero(name);
-                if(hero == null){
-                    throw new Exception("Invalid Hero");
-                }else{
-                    heroMap.put(name, hero);
-                    return hero;
-                }
-            
+                // Hero hero = factory.createHero(name);
+                // if(hero == null){
+                //     throw new Exception("Invalid Hero");
+                // }else{
+                //     heroMap.put(name, hero);
+                //     return hero;
+                // }
+                // if(!factory.isHeroValid(name))
+                throw new Exception("No Such Hero");
+                // else{
+                    
+                // }
             }
         }
         return heroMap.get(name);
     }
     
-    public void chooseHero(String username, String heroname){
+    public void chooseHeroByCode(String username, String herocode){
         User user = findUser(username);
-        Hero hero = factory.createHero(heroname);
+        Hero hero = factory.createHeroByCode(herocode);
+        if(!user.hasChosenHero()){
+            user.setHero(hero);
+            monitor.addEvent(CmdConstants.CHOOSEHERO + CmdConstants.CMD_SEPARATOR + username 
+                             + CmdConstants.CMD_SEPARATOR + hero.getHeroname());
+
+        }
+
+        heroMap.put(hero.getHeroname(), hero);
+        
+    }
+
+    public void chooseHero(String username, String heroname, TeamEnum team){
+        User user = findUser(username);
+        Hero hero = factory.createHero(heroname, team);
         if(!user.hasChosenHero()){
             user.setHero(hero);
             monitor.addEvent(CmdConstants.CHOOSEHERO + CmdConstants.CMD_SEPARATOR + username 
                              + CmdConstants.CMD_SEPARATOR + heroname);
 
         }
-
+        heroMap.put(heroname, hero);        
     }
 
     public List<Minion> getMinions(){

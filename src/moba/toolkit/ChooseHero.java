@@ -16,7 +16,7 @@
 // Status: 
 // Table of Contents: 
 // 
-//     Update #: 21
+//     Update #: 40
 // 
 
 // Code:
@@ -37,24 +37,40 @@ import moba.gameobj.features.*;
 public class ChooseHero extends SystemCommand {
 
     String heroname;
-
-    public ChooseHero(String heroname){
+    TeamEnum team;
+    public ChooseHero(String heroname, TeamEnum team){
         this.heroname = heroname;
+        this.team = team;
+    }
+    // make it compatible to herocode approach
+    public ChooseHero(String herocode){
+        this.heroname = herocode;
+        this.team = null;
     }
 
     /**
-     * encode ChooseHero. format: "CHOOSEHERO heroname"
+     * encode ChooseHero. format: "CHOOSEHERO heroname teamname"
      */
-	public String getCommandType() {
-		return (super.getCommandType() + CmdConstants.TYPE_SEPARATOR + CmdConstants.CHOOSEHERO);
-	}
+    public String getCommandType() {
+        return (super.getCommandType() + CmdConstants.TYPE_SEPARATOR + CmdConstants.CHOOSEHERO);
+    }
+
+
     @Override
     public String encode() {
-        return (CmdConstants.CHOOSEHERO + CmdConstants.CMD_SEPARATOR + heroname);
+        return (CmdConstants.CHOOSEHERO + CmdConstants.CMD_SEPARATOR + heroname + CmdConstants.CMD_SEPARATOR + team.toString());
     }
 
     public String getHeroname(){
         return heroname;
+    }
+
+    public TeamEnum getTeam(){
+        return team;
+    }
+
+    public void setTeam(TeamEnum team){
+        this.team = team;
     }
 }
 
